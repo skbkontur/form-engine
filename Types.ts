@@ -1,10 +1,13 @@
 import { Dispatch } from "redux";
 import { ValidationResult } from "Commons/Mutators/Types";
+
 import { FormState } from "./FormStore/FormState";
 
 type Diff<T, U> = T extends U ? never : T;
 type NonNullable<T> = Diff<T, null | undefined>;
-type Magic = { x: 1 };
+interface Magic {
+    x: 1;
+}
 
 // tslint:disable:prettier
 export type DeepNonNullable<T> =

@@ -1,10 +1,11 @@
-import * as _ from "lodash";
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
-import { GenericModelValidator } from "../Types";
-import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
+import * as _ from "lodash";
 import { ValidationResult } from "Commons/Mutators/Types";
+
 import { FormState } from "../FormStore/FormState";
 import { getIn, setIn } from "../FormStore/ImmutableOperators";
+import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
+import { GenericModelValidator } from "../Types";
 
 export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));

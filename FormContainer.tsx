@@ -1,13 +1,14 @@
-import * as React from "react";
-import { createStore, Store, Unsubscribe } from "redux";
-import { Provider } from "react-redux";
-import { buildInitialState, formReducer } from "./FormStore/FormReducer";
-import { devToolsEnhancer } from "redux-devtools-extension";
-import { GenericModelValidator } from "./Types";
-import { ValidationResult } from "Commons/Mutators/Types";
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
+import * as React from "react";
+import { Provider } from "react-redux";
+import { createStore, Store, Unsubscribe } from "redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
+import { ValidationResult } from "Commons/Mutators/Types";
+
 import { replaceValue } from "./FormStore/FormActions";
+import { buildInitialState, formReducer } from "./FormStore/FormReducer";
 import { FormState } from "./FormStore/FormState";
+import { GenericModelValidator } from "./Types";
 
 interface FormContainerProps<TData, TContext> {
     value: TData;
@@ -18,11 +19,11 @@ interface FormContainerProps<TData, TContext> {
 }
 
 export class FormContainer<TData, TContext = any> extends React.Component<FormContainerProps<TData, TContext>> {
-    store: Store<FormState<TData, TContext>>;
-    unsubscribeFromStore?: Unsubscribe;
-    validationContainer: ValidationContainer | null;
+    public store: Store<FormState<TData, TContext>>;
+    public unsubscribeFromStore?: Unsubscribe;
+    public validationContainer: ValidationContainer | null;
 
-    constructor(props: FormContainerProps<TData, TContext>) {
+    public constructor(props: FormContainerProps<TData, TContext>) {
         super(props);
         this.store = createStore(
             formReducer,
@@ -32,37 +33,37 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         this.unsubscribeFromStore = this.store.subscribe(this.handleStateChange);
     }
 
-    shouldComponentUpdate(nextProps: FormContainerProps<TData, TContext>): boolean {
+    public shouldComponentUpdate(nextProps: FormContainerProps<TData, TContext>): boolean {
         return nextProps.value !== this.store.getState().value;
     }
 
-    handleStateChange = () => {
+    public handleStateChange = () => {
         if (this.props.value !== this.store.getState().value) {
             this.props.onChange(this.store.getState().value);
         }
     };
 
-    componentWillReceiveProps(nextProps: FormContainerProps<TData, TContext>) {
+    public componentWillReceiveProps(nextProps: FormContainerProps<TData, TContext>) {
         // TODO отпасти изменение контекста
         if (nextProps.value !== this.store.getState().value) {
             this.store.dispatch(replaceValue(nextProps.value));
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         if (this.unsubscribeFromStore != null) {
             this.unsubscribeFromStore();
         }
     }
 
-    async validate(): Promise<boolean> {
+    public async validate(): Promise<boolean> {
         if (this.validationContainer != null) {
             return this.validationContainer.validate();
         }
         return true;
     }
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <Provider store={this.store}>
                 <ValidationContainer ref={x => (this.validationContainer = x)}>

@@ -1,8 +1,9 @@
 import _ from "lodash";
+
 import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
-import { GenericModelValidator } from "../Types";
-import { NormalizedPath, startsWith } from "../Path";
 import { getIn, setIn } from "../FormStore/ImmutableOperators";
+import { NormalizedPath, startsWith } from "../Path";
+import { GenericModelValidator } from "../Types";
 
 export function getRequiredLines<T>(
     subject: T,
@@ -87,7 +88,7 @@ export function updateValueByHiddenLinesWithPreseveValuesForArray<T>(
     formLineInfos: FormLineInfo[],
     hiddenLines: FormLineId[]
 ): null | undefined | T[] {
-    let result = subject;
+    const result = subject;
     if (subject == undefined) {
         return subject;
     }

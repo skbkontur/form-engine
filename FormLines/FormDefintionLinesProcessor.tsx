@@ -1,12 +1,14 @@
 import * as React from "react";
-import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
-import { getNormalizedPath, NormalizedPath } from "../Path";
 import { capitalizeFirstLetter } from "utils";
+
+import { getNormalizedPath, NormalizedPath } from "../Path";
+
+import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
 
 interface ProcessedForm {
     formDefinition: JSX.Element;
     lines: FormLineInfo[];
-    structuredLines: Array<StructuredFormItem>;
+    structuredLines: StructuredFormItem[];
 }
 
 export type FormLineId = string;
@@ -26,7 +28,7 @@ export interface StructuredFormLineInfo extends FormLineInfo {
 export interface StructuredFormLineGroup {
     type: "FormLineGroup";
     caption?: string;
-    children: Array<FormLineInfo>;
+    children: FormLineInfo[];
 }
 
 export type StructuredFormItem = StructuredFormLineInfo | StructuredFormLineGroup;
@@ -43,10 +45,10 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
     public lines: FormLineInfo[] = [];
     public structuredLines: StructuredFormItem[] = [];
     public currentGroup?: StructuredFormLineGroup;
-    public nestingCount: number = 0;
-    public groupStack: Array<FormLineId[]> = [];
+    public nestingCount = 0;
+    public groupStack: FormLineId[][] = [];
 
-    visitElementOpen(element: JSX.Element): JSX.Element {
+    public visitElementOpen(element: JSX.Element): JSX.Element {
         if (element.type["FormLine"]) {
             this.currentLine = [];
         }
@@ -64,7 +66,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
         return element;
     }
 
-    visitElementClose(element: JSX.Element): JSX.Element {
+    public visitElementClose(element: JSX.Element): JSX.Element {
         if (element.type["FormSection"]) {
             this.nestingCount--;
             if (this.currentGroup != null && this.nestingCount === 0) {

@@ -1,16 +1,18 @@
-import * as React from "react";
-import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
 import * as _ from "lodash";
+import * as React from "react";
+import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
+
+import MessageMonitoringLocalStorage from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
+import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
+import { NormalizedPath } from "../Path";
+import { GenericModelValidator } from "../Types";
+
+import { FormLinesContext } from "./FormLinesContext";
 import {
     getFilledLineIdsForArray,
     getRequiredLinesForList,
     updateValueByHiddenLinesWithPreseveValuesForArray,
 } from "./FormLinesWithManualHideUtils";
-import { GenericModelValidator } from "../Types";
-import { NormalizedPath } from "../Path";
-import { FormLinesContext } from "./FormLinesContext";
-import MessageMonitoringLocalStorage from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
-import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
 
 interface ArrayChildFormLinesManagerProps<TData> {
     lines: FormLineInfo[];
@@ -30,9 +32,9 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
     ArrayChildFormLinesManagerProps<TData>,
     ArrayChildFormLinesManagerState
 > {
-    state: ArrayChildFormLinesManagerState;
+    public state: ArrayChildFormLinesManagerState;
 
-    constructor(props: ArrayChildFormLinesManagerProps<TData>) {
+    public constructor(props: ArrayChildFormLinesManagerProps<TData>) {
         super(props);
         const allLineids = props.lines.map(x => x.id);
         const initialHiddenLineIds =
@@ -51,11 +53,11 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         };
     }
 
-    componentWillReceiveProps(nextProps: ArrayChildFormLinesManagerProps<TData>) {
+    public componentWillReceiveProps(nextProps: ArrayChildFormLinesManagerProps<TData>) {
         this.recalculateRequiredFieldsDebounced(nextProps);
     }
 
-    handleSaveLines = () => {
+    public handleSaveLines = () => {
         MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
             DocumentTypes.Invoic,
             "GoodItem",
@@ -63,7 +65,7 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         );
     };
 
-    recalculateRequiredFields = (props: ArrayChildFormLinesManagerProps<TData>) => {
+    public recalculateRequiredFields = (props: ArrayChildFormLinesManagerProps<TData>) => {
         const requiredByValidator = props.validator
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
@@ -80,9 +82,9 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         }
     };
 
-    recalculateRequiredFieldsDebounced = _.debounce(this.recalculateRequiredFields, 800);
+    public recalculateRequiredFieldsDebounced = _.debounce(this.recalculateRequiredFields, 800);
 
-    handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
+    public handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
         this.setState({
             hiddenLines: hiddenLines,
         });
@@ -91,7 +93,7 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         );
     };
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return this.props.children({
             hiddenLines: this.state.hiddenLines,
             requiredByValidator: this.state.requiredByValidator,

@@ -1,19 +1,19 @@
 import { NormalizedPath } from "../Path";
 
-type FormUpdateAction = {
+interface FormUpdateAction {
     type: "UpdateValue";
     path: NormalizedPath;
     value: any;
-};
+}
 
-type FormReplaceValueAction = {
+interface FormReplaceValueAction {
     type: "ReplaceValue";
     value: any;
-};
+}
 
-type InitAction = {
+interface InitAction {
     type: "@@redux/INIT";
-};
+}
 
 export type FormAction = InitAction | FormReplaceValueAction | FormUpdateAction;
 

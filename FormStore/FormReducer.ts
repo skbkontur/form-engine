@@ -1,6 +1,7 @@
+import { ValidationResult } from "Commons/Mutators/Types";
+
 import { FormAction } from "./FormActions";
 import { FormState } from "./FormState";
-import { ValidationResult } from "Commons/Mutators/Types";
 import { setIn } from "./ImmutableOperators";
 
 export function buildInitialState<T, TContext>(
