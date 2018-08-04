@@ -34,7 +34,11 @@ export interface StructuredFormLineGroup {
 
 export type StructuredFormItem = StructuredFormLineInfo | StructuredFormLineGroup;
 
-function toUpperCamelCasePath(normalizedPath: NormalizedPath, separator: string = "."): string {
+function toUpperCamelCasePath(normalizedPath: NormalizedPath): string {
+    return toUpperCamelCasePathWithSeparator(normalizedPath, ".");
+}
+
+function toUpperCamelCasePathWithSeparator(normalizedPath: NormalizedPath, separator: string): string {
     return normalizedPath
         .map(x => x.toString())
         .map(capitalizeFirstLetter)
@@ -83,8 +87,8 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             this.currentLine.push(normalizedPath);
             return React.cloneElement(element, {
                 "data-tid": concatTids(
-                    toUpperCamelCasePath(normalizedPath, "."),
-                    toUpperCamelCasePath(normalizedPath, "-")
+                    toUpperCamelCasePathWithSeparator(normalizedPath, "."),
+                    toUpperCamelCasePathWithSeparator(normalizedPath, "-")
                 ),
             });
         }
@@ -109,9 +113,9 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 });
             }
             this.currentLine = [];
-            const dataTid1 = lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("") + "Line";
+            const dataTid1 = lineInfo.fields.map(toUpperCamelCasePath).join("") + "Line";
             const dataTid2 =
-                lineInfo.fields.length > 1 ? lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("_") : undefined;
+                lineInfo.fields.length > 1 ? lineInfo.fields.map(toUpperCamelCasePath).join("_") : undefined;
             return React.cloneElement(element, {
                 "data-tid": concatTids(dataTid1, dataTid2),
                 internalId: id,
