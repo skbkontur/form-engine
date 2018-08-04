@@ -47,41 +47,42 @@ export function updateValueByHiddenLinesWithPreseveValues<T>(
     let result = subject;
     const hiddenLines = formLineInfos.filter(x => hiddenLineIds.includes(x.id));
 
+    // TODO срочно переписать, так чтобы было понятно!!!
     result = hiddenLines.filter(x => someFieldOfLineFilled(subject, x)).reduce(
-        (subject, line) =>
-            line.fields.reduce((subject, path) => {
-                const fieldValue = getIn(subject, path);
+        (rootSubject, line) =>
+            line.fields.reduce((xxx, path) => {
+                const fieldValue = getIn(xxx, path);
                 if (fieldValue != null) {
-                    let result = subject;
-                    result = setIn(result, ["__HIDDEN_FIELDS__"], {
-                        ...result["__HIDDEN_FIELDS__"],
+                    let childResult = xxx;
+                    childResult = setIn(childResult, ["__HIDDEN_FIELDS__"], {
+                        ...childResult["__HIDDEN_FIELDS__"],
                         [path.join(".")]: fieldValue,
                     });
-                    result = setIn(result, path, undefined);
-                    return result;
+                    childResult = setIn(childResult, path, undefined);
+                    return childResult;
                 }
-                return subject;
-            }, subject),
+                return xxx;
+            }, rootSubject),
         result
     );
     result = formLineInfos
         .filter(x => !hiddenLineIds.includes(x.id))
         .filter(x => someFieldOfLineHidden(subject, x))
         .reduce(
-            (subject, line) =>
-                line.fields.reduce((subject, path) => {
-                    const fieldValue = subject["__HIDDEN_FIELDS__"][path.join(".")];
+            (rootSubject, line) =>
+                line.fields.reduce((xxx, path) => {
+                    const fieldValue = xxx["__HIDDEN_FIELDS__"][path.join(".")];
                     if (fieldValue != null) {
-                        let result = subject;
-                        result = setIn(result, path, fieldValue);
-                        result = setIn(result, ["__HIDDEN_FIELDS__"], {
-                            ...result["__HIDDEN_FIELDS__"],
+                        let childResult = xxx;
+                        childResult = setIn(childResult, path, fieldValue);
+                        childResult = setIn(childResult, ["__HIDDEN_FIELDS__"], {
+                            ...childResult["__HIDDEN_FIELDS__"],
                             [path.join(".")]: undefined,
                         });
-                        return result;
+                        return childResult;
                     }
-                    return subject;
-                }, subject),
+                    return xxx;
+                }, rootSubject),
             result
         );
     return result;
