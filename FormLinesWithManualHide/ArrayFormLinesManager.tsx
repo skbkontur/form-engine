@@ -1,5 +1,7 @@
+import bind from "bind-decorator";
 import * as _ from "lodash";
 import * as React from "react";
+import { debounce } from "typescript-debounce-decorator";
 import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
 
 import MessageMonitoringLocalStorage from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
@@ -57,15 +59,35 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         this.recalculateRequiredFieldsDebounced(nextProps);
     }
 
-    public handleSaveLines = () => {
+    public render(): JSX.Element {
+        return this.props.children({
+            hiddenLines: this.state.hiddenLines,
+            requiredByValidator: this.state.requiredByValidator,
+            onChangeHiddenLines: this.handleChangeHiddenFields,
+            onSave: this.handleSaveLines,
+        });
+    }
+
+    @bind
+    private handleSaveLines() {
         MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
             DocumentTypes.Invoic,
             "GoodItem",
             this.state.hiddenLines
         );
-    };
+    }
 
-    public recalculateRequiredFields = (props: ArrayChildFormLinesManagerProps<TData>) => {
+    @bind
+    private handleChangeHiddenFields(hiddenLines: FormLineId[]) {
+        this.setState({
+            hiddenLines: hiddenLines,
+        });
+        this.props.onChangeValue(
+            updateValueByHiddenLinesWithPreseveValuesForArray(this.props.value, this.props.lines, hiddenLines) || []
+        );
+    }
+
+    private recalculateRequiredFields(props: ArrayChildFormLinesManagerProps<TData>) {
         const requiredByValidator = props.validator
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
@@ -80,26 +102,11 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
                 requiredByValidator: requiredByValidator,
             });
         }
-    };
+    }
 
-    public recalculateRequiredFieldsDebounced = _.debounce(this.recalculateRequiredFields, 800);
-
-    public handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
-        this.setState({
-            hiddenLines: hiddenLines,
-        });
-        this.props.onChangeValue(
-            updateValueByHiddenLinesWithPreseveValuesForArray(this.props.value, this.props.lines, hiddenLines) || []
-        );
-    };
-
-    public render(): JSX.Element {
-        return this.props.children({
-            hiddenLines: this.state.hiddenLines,
-            requiredByValidator: this.state.requiredByValidator,
-            onChangeHiddenLines: this.handleChangeHiddenFields,
-            onSave: this.handleSaveLines,
-        });
+    @debounce(800, { leading: false })
+    private recalculateRequiredFieldsDebounced(props: ArrayChildFormLinesManagerProps<TData>) {
+        this.recalculateRequiredFields(props);
     }
 }
 
