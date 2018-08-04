@@ -1,5 +1,4 @@
 import createReactContext from "create-react-context";
-import * as React from "react";
 
 import { NormalizedPath } from "../Path";
 

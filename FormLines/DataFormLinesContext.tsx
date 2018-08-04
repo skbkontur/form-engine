@@ -1,5 +1,4 @@
 import createContext from "create-react-context";
-import * as React from "react";
 
 import { FormLineId } from "./FormDefintionLinesProcessor";
 

@@ -35,7 +35,6 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
 
     public constructor(props: FormLinesManagerProps<TData>) {
         super(props);
-        const allLineids = props.lines.map(x => x.id);
         const initialHiddenLineIds =
             MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(DocumentTypes.Invoic, "Root") ||
             props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
@@ -79,7 +78,6 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
             ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
         const nextHiddenLines = _.difference(this.state.hiddenLines, requiredByValidator);
-        const nextLines = props.lines.map(x => ({ ...x, requiredByValidator: requiredByValidator.includes(x.id) }));
         if (
             !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
             !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)

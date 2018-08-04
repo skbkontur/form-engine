@@ -38,7 +38,6 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
 
     public constructor(props: ArrayChildFormLinesManagerProps<TData>) {
         super(props);
-        const allLineids = props.lines.map(x => x.id);
         const initialHiddenLineIds =
             MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(DocumentTypes.Invoic, "GoodItem") ||
             props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
@@ -92,7 +91,6 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
         const nextHiddenLines = _.difference(this.state.hiddenLines, requiredByValidator);
-        const nextLines = props.lines.map(x => ({ ...x, requiredByValidator: requiredByValidator.includes(x.id) }));
         if (
             !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
             !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)

@@ -93,7 +93,6 @@ export function updateValueByHiddenLinesWithPreseveValuesForArray<T>(
     formLineInfos: FormLineInfo[],
     hiddenLines: FormLineId[]
 ): null | undefined | T[] {
-    const result = subject;
     if (subject == undefined) {
         return subject;
     }
