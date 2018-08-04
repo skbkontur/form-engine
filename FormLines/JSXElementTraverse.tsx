@@ -6,10 +6,11 @@ export interface JSXElementVisitor {
 }
 
 export function traverseElemenents(root: JSX.Element, visitor: JSXElementVisitor): JSX.Element {
-    root = visitor.visitElementOpen(root);
-    if (root.props && root.props.children != null) {
-        root = React.cloneElement(root, {
-            children: React.Children.map(root.props.children, x => {
+    let result = root;
+    result = visitor.visitElementOpen(result);
+    if (result.props && result.props.children != null) {
+        result = React.cloneElement(result, {
+            children: React.Children.map(result.props.children, x => {
                 if (typeof x === "string" || typeof x === "number") {
                     return x;
                 }
@@ -17,6 +18,6 @@ export function traverseElemenents(root: JSX.Element, visitor: JSXElementVisitor
             }),
         });
     }
-    root = visitor.visitElementClose(root);
-    return root;
+    result = visitor.visitElementClose(result);
+    return result;
 }
