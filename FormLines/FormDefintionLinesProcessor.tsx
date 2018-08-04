@@ -1,6 +1,7 @@
 import * as React from "react";
 import { capitalizeFirstLetter } from "utils";
 
+import { concatTids } from "../../../../local_modules/ui/testing";
 import { getNormalizedPath, NormalizedPath } from "../Path";
 
 import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
@@ -81,7 +82,10 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             const normalizedPath = getNormalizedPath(element.props.path);
             this.currentLine.push(normalizedPath);
             return React.cloneElement(element, {
-                "data-tid": toUpperCamelCasePath(normalizedPath, ".") + " " + toUpperCamelCasePath(normalizedPath, "-"),
+                "data-tid": concatTids(
+                    toUpperCamelCasePath(normalizedPath, "."),
+                    toUpperCamelCasePath(normalizedPath, "-")
+                ),
             });
         }
         if (element.type["FormLine"]) {
@@ -105,13 +109,11 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 });
             }
             this.currentLine = [];
+            const dataTid1 = lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("") + "Line";
+            const dataTid2 =
+                lineInfo.fields.length > 1 ? lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("_") : undefined;
             return React.cloneElement(element, {
-                "data-tid":
-                    lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("") +
-                    "Line" +
-                    (lineInfo.fields.length > 1
-                        ? " " + lineInfo.fields.map(x => toUpperCamelCasePath(x)).join("_")
-                        : ""),
+                "data-tid": concatTids(dataTid1, dataTid2),
                 internalId: id,
             });
         }
