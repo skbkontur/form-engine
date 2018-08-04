@@ -3,7 +3,6 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
-import { ValidationResult } from "Commons/Mutators/Types";
 
 import { replaceValue } from "./FormStore/FormActions";
 import { buildInitialState, formReducer } from "./FormStore/FormReducer";

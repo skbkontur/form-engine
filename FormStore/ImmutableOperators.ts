@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 
 import { NormalizedPath } from "../Path";
-import { getNormalizedPath } from "../Path";
 
 function isPrimitive<T>(value: T): boolean {
     if (value == null) {
