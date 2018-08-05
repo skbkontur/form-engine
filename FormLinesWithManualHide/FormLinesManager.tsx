@@ -4,7 +4,7 @@ import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
 import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
 
-import MessageMonitoringLocalStorage from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
+import { MessageMonitoringLocalStorage } from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
 import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
 import { NormalizedPath } from "../Path";
 import { GenericModelValidator } from "../Types";
