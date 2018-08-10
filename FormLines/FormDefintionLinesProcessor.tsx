@@ -1,7 +1,7 @@
 import * as React from "react";
+import { concatTids } from "ui/testing";
 import { capitalizeFirstLetter } from "utils";
 
-import { concatTids } from "../../../../local_modules/ui/testing";
 import { getNormalizedPath, NormalizedPath } from "../Path";
 
 import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
