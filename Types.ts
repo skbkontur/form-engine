@@ -13,7 +13,7 @@ export type DeepNonNullable<T> =
     T extends Nullable<number> ? T :
     T extends Nullable<string | Date> ? T :
     {
-        [P in keyof T]:
+        [P in keyof T]-?:
             T[P] extends Array<infer U> ? Array<DeepNonNullable<U>> :
             T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepNonNullable<U>> :
             T[P] extends Nullable<Array<infer U>> ? Array<DeepNonNullable<U>> :
