@@ -183,6 +183,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
     }
 
     public render(): JSX.Element {
+        console.log(this.props);
         return (
             <Provider store={this.store}>
                 <FormActionsContext.Provider value={this.rootActions}>
