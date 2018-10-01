@@ -1,6 +1,6 @@
 import { getPath } from "lens";
 
-export type Path<T, TR> = (value: T) => TR;
+export type Path<T, TR, TContext = {}> = (value: T, context?: TContext) => TR;
 
 export type PathWithContext<T, TR, TC> = (value: T, context: TC) => TR;
 
