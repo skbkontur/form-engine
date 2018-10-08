@@ -13,7 +13,7 @@ function isPrimitive<T>(value: T): boolean {
 }
 
 export function getIn<T>(target: T, path: NormalizedPath): any {
-    if (path.length === 0) {
+   if (path.length === 0) {
         return target;
     }
     return _.get(target, path);
