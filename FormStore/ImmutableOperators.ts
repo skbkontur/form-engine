@@ -12,8 +12,8 @@ function isPrimitive<T>(value: T): boolean {
     return false;
 }
 
-export function getIn<T>(target: T, path: NormalizedPath): any {
-   if (path.length === 0) {
+export function getIn<T, TContext>(target: T, path: NormalizedPath, context?: TContext): any {
+    if (path.length === 0) {
         return target;
     }
     return _.get(target, path);

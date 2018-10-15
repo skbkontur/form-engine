@@ -9,7 +9,10 @@ import { getIn, setIn } from "../FormStore/ImmutableOperators";
 import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
 import { GenericModelValidator } from "../Types";
 
-export function getValue<T, TChild, TContext>(target: T, path: Path<T, TChild, TContext>): TChild {
+export function getValue<T, TChild, TContext>(target: T, path: Path<T, TChild, TContext>, context?: TContext): TChild {
+    if (context != undefined) {
+        return path(target, context);
+    }
     return getIn(target, getNormalizedPath(path));
 }
 
