@@ -11,7 +11,7 @@ import { NormalizedPath, Path } from "./Path";
 
 export interface FormContextActions<T, TContext extends {}> {
     getValidationInfo<T>(state: FormState<T>, path: NormalizedPath): undefined | ValidationInfo;
-    getValue<TChild>(target: T, path: Path<T, TChild, TContext>, context?: TContext): TChild;
+    getValue<TChild>(target: T, path: Path<T, TChild>): TChild;
     getValueFromContext<TChild>(target: TContext, path: Path<TContext, TChild>): TChild;
     userUpdateValue(path: NormalizedPath, value: any): FormAction;
     changeAutoEvaluationType(path: NormalizedPath, type: AutoValueType): FormAction;

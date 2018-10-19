@@ -9,12 +9,10 @@ import { getIn, setIn } from "../FormStore/ImmutableOperators";
 import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
 import { GenericModelValidator } from "../Types";
 
-export function getValue<T, TChild, TContext>(target: T, path: Path<T, TChild, TContext>, context?: TContext): TChild {
-    if (context != undefined) {
-        return path(target, context);
-    }
+export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));
 }
+
 
 export interface AutoEvaluationControlState<TTarget> {
     type: AutoValueType;
