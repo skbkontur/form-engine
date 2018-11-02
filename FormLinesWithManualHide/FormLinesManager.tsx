@@ -2,7 +2,7 @@ import bind from "bind-decorator";
 import * as _ from "lodash";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
-import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
+import { DocumentType } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
 
 import { MessageMonitoringLocalStorage } from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
 import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
@@ -23,6 +23,7 @@ interface FormLinesManagerProps<TData> {
     validator?: GenericModelValidator<TData>;
     requiredByDefaultPaths: NormalizedPath[];
     children: (context: FormLinesContext) => JSX.Element;
+    documentType?: DocumentType;
 }
 
 interface FormLinesManagerState {
@@ -36,7 +37,8 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
     public constructor(props: FormLinesManagerProps<TData>) {
         super(props);
         const initialHiddenLineIds =
-            MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(DocumentTypes.Invoic, "Root") ||
+            (props.documentType &&
+                MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(props.documentType, "Root")) ||
             props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
         const requiredByValidator = props.validator
             ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
@@ -66,11 +68,17 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
 
     @bind
     private handleSaveLines() {
-        MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
-            DocumentTypes.Invoic,
-            "Root",
-            this.state.hiddenLines
-        );
+        const { documentType } = this.props;
+
+        if (documentType) {
+            MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
+                documentType,
+                "GoodItem",
+                this.state.hiddenLines
+            );
+        } else {
+            throw new Error("documentType must be defined");
+        }
     }
 
     private recalculateRequiredFields(props: FormLinesManagerProps<TData>) {

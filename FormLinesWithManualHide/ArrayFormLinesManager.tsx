@@ -2,7 +2,7 @@ import bind from "bind-decorator";
 import * as _ from "lodash";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
-import { DocumentTypes } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
+import { DocumentType } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
 
 import { MessageMonitoringLocalStorage } from "../../../MessageMonitoring/api/messageMonitoringLocalStorage";
 import { FormLineId, FormLineInfo } from "../FormLines/FormDefintionLinesProcessor";
@@ -22,6 +22,7 @@ interface ArrayChildFormLinesManagerProps<TData> {
     onChangeValue: (nextValue: TData[]) => void;
     validator?: GenericModelValidator<TData[]>;
     requiredByDefaultPaths: NormalizedPath[];
+    documentType?: DocumentType;
     children: (context: FormLinesContext) => JSX.Element;
 }
 
@@ -39,7 +40,8 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
     public constructor(props: ArrayChildFormLinesManagerProps<TData>) {
         super(props);
         const initialHiddenLineIds =
-            MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(DocumentTypes.Invoic, "GoodItem") ||
+            (props.documentType &&
+                MessageMonitoringLocalStorage.getVisibleFieldsInMessageCreatorNew(props.documentType, "GoodItem")) ||
             props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
         const requiredByValidator = props.validator
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
@@ -69,11 +71,17 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
 
     @bind
     private handleSaveLines() {
-        MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
-            DocumentTypes.Invoic,
-            "GoodItem",
-            this.state.hiddenLines
-        );
+        const { documentType } = this.props;
+
+        if (documentType) {
+            MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
+                documentType,
+                "GoodItem",
+                this.state.hiddenLines
+            );
+        } else {
+            throw new Error("documentType must be defined");
+        }
     }
 
     @bind
