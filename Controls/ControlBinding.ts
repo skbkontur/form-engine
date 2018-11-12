@@ -13,7 +13,6 @@ export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));
 }
 
-
 export interface AutoEvaluationControlState<TTarget> {
     type: AutoValueType;
     autoValue: TTarget;
