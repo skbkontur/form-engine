@@ -98,5 +98,12 @@ export function formReducer<TData, TContext>(
             value: action.value,
         };
     }
+    if (action.type === "ReplaceValidator") {
+        return {
+            ...state,
+            validationResult: action.value != undefined ? action.value(state.value) : undefined,
+            validator: action.value,
+        };
+    }
     return state;
 }

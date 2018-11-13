@@ -93,7 +93,7 @@ export function getChildValidator<TData, TChild>(
         const rootResult = validator(setIn(rootValue, path, childValue));
         const result = rootResult.filter(x => startsWith(x.path, path)).map(x => ({
             ...x,
-            path: x.path.slice(1),
+            path: x.path.slice(path.length),
         }));
         return result;
     };

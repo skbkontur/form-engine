@@ -19,6 +19,11 @@ interface FormReplaceValueAction {
     value: any;
 }
 
+interface FormReplaceValidatorAction {
+    type: "ReplaceValidator";
+    value: any;
+}
+
 interface InitAction {
     type: "@@redux/INIT";
 }
@@ -31,6 +36,7 @@ export type FormAction =
     | InitAction
     | FormReplaceValueAction
     | FormUpdateAction
+    | FormReplaceValidatorAction
     | RunAutoEvaluationsAction
     | ChangeAutoEvaluationTypeAction;
 
@@ -59,6 +65,13 @@ export function runAutoEvaluations(): FormAction {
 export function replaceValue(value: any): FormAction {
     return {
         type: "ReplaceValue",
+        value: value,
+    };
+}
+
+export function replaceValidator(value: any): FormAction {
+    return {
+        type: "ReplaceValidator",
         value: value,
     };
 }
