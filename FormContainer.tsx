@@ -16,6 +16,7 @@ import { FormActionsContext, FormContextActions } from "./FormActionsContext";
 import {
     changeAutoEvaluationType,
     FormAction,
+    replaceValidator,
     replaceValue,
     runAutoEvaluations,
     userUpdateValue,
@@ -142,7 +143,8 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
     }
 
     public shouldComponentUpdate(nextProps: FormContainerProps<TData, TContext>): boolean {
-        return nextProps.value !== this.store.getState().value;
+        const state = this.store.getState();
+        return nextProps.value !== state.value || nextProps.validator !== state.validator;
     }
 
     public handleStateChange = () => {
@@ -153,8 +155,12 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
 
     public componentWillReceiveProps(nextProps: FormContainerProps<TData, TContext>) {
         // TODO отпасти изменение контекста
-        if (nextProps.value !== this.store.getState().value) {
+        const state = this.store.getState();
+        if (nextProps.value !== state.value) {
             this.store.dispatch(replaceValue(nextProps.value));
+        }
+        if (nextProps.validator !== state.validator) {
+            this.store.dispatch(replaceValidator(nextProps.validator));
         }
     }
 
