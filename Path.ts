@@ -2,6 +2,8 @@ import { getPath } from "lens";
 
 export type Path<T, TR> = (value: T) => TR;
 
+export type PathWithContext<T, TR, TC> = (value: T, context: TC) => TR;
+
 export type NormalizedPath = Array<string | number>;
 
 export function startsWith(path: NormalizedPath, prefix: NormalizedPath): boolean {
@@ -10,7 +12,13 @@ export function startsWith(path: NormalizedPath, prefix: NormalizedPath): boolea
 
 const normalizedPathCache = new Map();
 
-export function getNormalizedPath<TTarget extends {}, TProp>(lambda: (target: TTarget) => TProp): NormalizedPath {
+export function combineNormalizedPath(left: NormalizedPath, right: NormalizedPath): NormalizedPath {
+    return [...left, ...right];
+}
+
+export function getNormalizedPath<TTarget extends {}, TProp, TContext extends {}>(
+    lambda: (target: TTarget, context?: TContext) => TProp
+): NormalizedPath {
     let result = normalizedPathCache.get(lambda);
     if (result == undefined) {
         result = getPath(lambda);

@@ -20,6 +20,19 @@ export type DeepNonNullable<T> =
             T[P] extends Object ? DeepNonNullable<NonNullable<T[P]>> :
             T[P]
     };
+
+export type DeepNonNullableWithLeafs<T> =
+    T extends Nullable<string> ? string :
+    T extends Nullable<number> ? number :
+    T extends Nullable<string | Date> ? (string | Date) :
+    {
+        [P in keyof T]-?:
+        T[P] extends Array<infer U> ? Array<DeepNonNullableWithLeafs<U>> :
+        T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepNonNullableWithLeafs<U>> :
+        T[P] extends Nullable<Array<infer U>> ? Array<DeepNonNullableWithLeafs<U>> :
+        T[P] extends Object ? DeepNonNullableWithLeafs<NonNullable<T[P]>> :
+        T[P]
+    };
 // tslint:enable:prettier
 
 export type GenericModelValidator<TData> = (value: TData) => ValidationResult;

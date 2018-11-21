@@ -1,5 +1,7 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import * as _ from "lodash";
+import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
+import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
 import { ValidationResult } from "Commons/Mutators/Types";
 
 import { FormState } from "../FormStore/FormState";
@@ -9,6 +11,40 @@ import { GenericModelValidator } from "../Types";
 
 export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));
+}
+
+export interface AutoEvaluationControlState<TTarget> {
+    type: AutoValueType;
+    autoValue: TTarget;
+    lastManualValue: TTarget;
+    initialValue: TTarget;
+}
+
+export function getAutoEvaluationState<T, TChild>(
+    formState: FormState<T>,
+    path: Path<T, TChild>
+): undefined | AutoEvaluationControlState<TChild> {
+    return getAutoEvaluationStateFromNormalizedPath(formState, getNormalizedPath(path));
+}
+
+export function getAutoEvaluationStateFromNormalizedPath<T, TChild>(
+    formState: FormState<T>,
+    path: NormalizedPath
+): undefined | AutoEvaluationControlState<any> {
+    const autoEvaluationState = formState.autoEvaluationState;
+    if (autoEvaluationState == undefined) {
+        return undefined;
+    }
+    const controlState = autoEvaluationState.nodeStates[getKeyByNodePath(path)];
+    if (controlState == null) {
+        return undefined;
+    }
+    return {
+        initialValue: controlState.initialValue,
+        autoValue: controlState.autoValue,
+        lastManualValue: controlState.lastManualValue,
+        type: controlState.type,
+    };
 }
 
 export function getValidationInfo<TData>(state: FormState<TData>, path: NormalizedPath): undefined | ValidationInfo {
