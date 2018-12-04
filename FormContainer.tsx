@@ -182,6 +182,13 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         return true;
     }
 
+    public submit(): void {
+        if (this.validationContainer != null) {
+            this.validationContainer.submit();
+        }
+        return;
+    }
+
     public render(): JSX.Element {
         return (
             <Provider store={this.store}>
