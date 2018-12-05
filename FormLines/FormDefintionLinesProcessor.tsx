@@ -52,6 +52,10 @@ function toUpperCamelCasePathWithSeparator(normalizedPath: NormalizedPath, separ
         .join(separator);
 }
 
+function isPathExistInLine(line: NormalizedPath[], path: NormalizedPath): boolean {
+    return line.map(x => x.toString()).includes(path.toString());
+}
+
 class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
     public currentLine: NormalizedPath[] = [];
     public lines: FormLineInfo[] = [];
@@ -111,7 +115,9 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 (child.props.children || []).forEach((innerChild: JSX.Element) => {
                     if (innerChild.props != undefined && innerChild.props.path != undefined) {
                         normalizedPath = getNormalizedPath(innerChild.props.path);
-                        this.currentLine.push(normalizedPath);
+                        if (!isPathExistInLine(this.currentLine, normalizedPath)) {
+                            this.currentLine.push(normalizedPath);
+                        }
                     }
                 });
             });
@@ -123,7 +129,9 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 return element;
             }
             const normalizedPath = getNormalizedPath(element.props.path);
-            this.currentLine.push(normalizedPath);
+            if (!isPathExistInLine(this.currentLine, normalizedPath)) {
+                this.currentLine.push(normalizedPath);
+            }
             return React.cloneElement(element, {
                 "data-tid": concatTids(
                     toUpperCamelCasePathWithSeparator(normalizedPath, "."),
