@@ -58,7 +58,8 @@ export function extractValidationInfo<TData>(
     if (validationResult == undefined) {
         return undefined;
     }
-    const result = validationResult.find(x => _.isEqual(x.path, path));
+    const result = _.findLast(validationResult, x => _.isEqual(x.path, path));
+
     if (result == undefined) {
         return undefined;
     }

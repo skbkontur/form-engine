@@ -17,7 +17,7 @@ interface ConnectTypingProps<TData, TMappedProps, TContext> {
 
 class ConnectTyping<TData, TMapped, TContext> extends React.Component<ConnectTypingProps<TData, TMapped, TContext>> {}
 
-const ConnectComp = ({ actions, children, dispatch, ...props }: any) => children(props, dispatch, actions);
+const ConnectComp = ({ actions, children, dispatch, mapState, ...props }: any) => children(props, dispatch, actions);
 
 const ConnectControlConnected: typeof ConnectTyping = connect(
     (state: any, { mapState, actions }: any) => mapState(state, actions),
