@@ -24,6 +24,11 @@ interface FormReplaceValidatorAction {
     value: any;
 }
 
+interface FormReplaceContextAction {
+    type: "ReplaceContext";
+    value: any;
+}
+
 interface InitAction {
     type: "@@redux/INIT";
 }
@@ -38,7 +43,8 @@ export type FormAction =
     | FormUpdateAction
     | FormReplaceValidatorAction
     | RunAutoEvaluationsAction
-    | ChangeAutoEvaluationTypeAction;
+    | ChangeAutoEvaluationTypeAction
+    | FormReplaceContextAction;
 
 export function userUpdateValue(path: NormalizedPath, value: any): FormAction {
     return {
@@ -72,6 +78,13 @@ export function replaceValue(value: any): FormAction {
 export function replaceValidator(value: any): FormAction {
     return {
         type: "ReplaceValidator",
+        value: value,
+    };
+}
+
+export function replaceContext(value: any): FormAction {
+    return {
+        type: "ReplaceContext",
         value: value,
     };
 }

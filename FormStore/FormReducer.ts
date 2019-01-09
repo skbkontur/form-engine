@@ -105,5 +105,11 @@ export function formReducer<TData, TContext>(
             validator: action.value,
         };
     }
+    if (action.type === "ReplaceContext") {
+        return {
+            ...state,
+            context: action.value,
+        };
+    }
     return state;
 }

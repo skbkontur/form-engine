@@ -1,4 +1,5 @@
 import { ValidationContainer, ValidationInfo } from "@skbkontur/react-ui-validations";
+import _ from "lodash";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
@@ -16,6 +17,7 @@ import { FormActionsContext, FormContextActions } from "./FormActionsContext";
 import {
     changeAutoEvaluationType,
     FormAction,
+    replaceContext,
     replaceValidator,
     replaceValue,
     runAutoEvaluations,
@@ -161,6 +163,9 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         }
         if (nextProps.validator !== state.validator) {
             this.store.dispatch(replaceValidator(nextProps.validator));
+        }
+        if (!_.isEqual(nextProps.context, state.context)) {
+            this.store.dispatch(replaceContext(nextProps.context));
         }
     }
 
