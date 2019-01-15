@@ -2,7 +2,7 @@ import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import * as _ from "lodash";
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
-import { ValidationResult } from "Commons/Mutators/Types";
+import { ValidationResult, ValidationResultItem } from "Commons/Mutators/Types";
 
 import { FormState } from "../FormStore/FormState";
 import { getIn, setIn } from "../FormStore/ImmutableOperators";
@@ -58,8 +58,11 @@ export function extractValidationInfo<TData>(
     if (validationResult == undefined) {
         return undefined;
     }
-    const result = _.findLast(validationResult, x => _.isEqual(x.path, path));
 
+    let result = getLastValidationInfoByPath(validationResult, path);
+    if (result == undefined && path[path.length - 1] === "0") {
+        result = getLastValidationInfoByPath(validationResult, path.slice(0, -1));
+    }
     if (result == undefined) {
         return undefined;
     }
@@ -98,4 +101,13 @@ export function getChildValidator<TData, TChild>(
         }));
         return result;
     };
+}
+
+function getLastValidationInfoByPath(
+    validationResult: undefined | ValidationResult,
+    path: NormalizedPath
+): ValidationResultItem | undefined {
+    const stringPath = path.map(x => x.toString());
+    const result = _.findLast(validationResult, x => _.isEqual(x.path.map(x => x.toString()), stringPath));
+    return result;
 }
