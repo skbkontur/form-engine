@@ -21,6 +21,7 @@ export interface FormContextActions<T, TContext extends {}> {
         formState: FormState<T>,
         path: Path<T, TChild>
     ): undefined | AutoEvaluationControlState<TChild>;
+    userChangeContext(path: NormalizedPath, nextContext: any): FormAction;
 }
 
 export const FormActionsContext = createReactContext<FormContextActions<any, any>>(null as any);

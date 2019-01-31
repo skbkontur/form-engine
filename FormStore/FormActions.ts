@@ -37,6 +37,12 @@ interface RunAutoEvaluationsAction {
     type: "RunAutoEvaluations";
 }
 
+interface UserChangeContextAction {
+    type: "UserChangeContext";
+    value: any;
+    path: NormalizedPath;
+}
+
 export type FormAction =
     | InitAction
     | FormReplaceValueAction
@@ -44,7 +50,8 @@ export type FormAction =
     | FormReplaceValidatorAction
     | RunAutoEvaluationsAction
     | ChangeAutoEvaluationTypeAction
-    | FormReplaceContextAction;
+    | FormReplaceContextAction
+    | UserChangeContextAction;
 
 export function userUpdateValue(path: NormalizedPath, value: any): FormAction {
     return {
@@ -86,5 +93,13 @@ export function replaceContext(value: any): FormAction {
     return {
         type: "ReplaceContext",
         value: value,
+    };
+}
+
+export function userChangeContext(path: NormalizedPath, value: any): FormAction {
+    return {
+        type: "UserChangeContext",
+        value: value,
+        path: path,
     };
 }

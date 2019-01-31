@@ -111,5 +111,13 @@ export function formReducer<TData, TContext>(
             context: action.value,
         };
     }
+    if (action.type === "UserChangeContext") {
+        const nextContext = setIn(state.context, action.path, action.value);
+        return {
+            ...state,
+            context: nextContext,
+        };
+    }
+
     return state;
 }

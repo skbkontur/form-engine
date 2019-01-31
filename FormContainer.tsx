@@ -21,6 +21,7 @@ import {
     replaceValidator,
     replaceValue,
     runAutoEvaluations,
+    userChangeContext,
     userUpdateValue,
 } from "./FormStore/FormActions";
 import { buildInitialState, formReducer } from "./FormStore/FormReducer";
@@ -43,6 +44,7 @@ class RootFormContextActions<T, TContext> implements FormContextActions<T, TCont
     public userUpdateValue = userUpdateValue;
     public getAutoEvaluationState = getAutoEvaluationState;
     public getValueFromContext = getValue;
+    public userChangeContext = userChangeContext;
 
     public dispatchCustomAction(action: any): void {
         throw new Error("NotImplementedError");
@@ -90,6 +92,10 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
         if (this.handleCustomAction != undefined) {
             this.handleCustomAction(action);
         }
+    }
+
+    public userChangeContext(path: NormalizedPath, nextContext: any): FormAction {
+        return userChangeContext(path, nextContext);
     }
 }
 
@@ -164,7 +170,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         if (nextProps.validator !== state.validator) {
             this.store.dispatch(replaceValidator(nextProps.validator));
         }
-        if (!_.isEqual(nextProps.context, state.context)) {
+        if (Object.keys(nextProps.context).some(key => nextProps.context[key] !== state.context[key])) {
             this.store.dispatch(replaceContext(nextProps.context));
         }
     }
