@@ -152,7 +152,11 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
 
     public shouldComponentUpdate(nextProps: FormContainerProps<TData, TContext>): boolean {
         const state = this.store.getState();
-        return nextProps.value !== state.value || nextProps.validator !== state.validator;
+        return (
+            nextProps.value !== state.value ||
+            nextProps.validator !== state.validator ||
+            Object.keys(nextProps.context).some(key => this.props.context[key] !== nextProps.context[key])
+        );
     }
 
     public handleStateChange = () => {
