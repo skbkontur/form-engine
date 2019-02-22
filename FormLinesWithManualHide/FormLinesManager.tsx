@@ -54,6 +54,9 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
     }
 
     public componentWillReceiveProps(nextProps: FormLinesManagerProps<TData>) {
+        if (nextProps.lines.length !== this.props.lines.length) {
+            this.recalculateRequiredAndHiddenFieldsDebounced(nextProps);
+        }
         this.recalculateRequiredFieldsDebounced(nextProps);
     }
 
@@ -81,6 +84,22 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         }
     }
 
+    private recalculateRequiredAndHiddenFields(props: FormLinesManagerProps<TData>) {
+        const requiredByValidator = props.validator
+            ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
+            : [];
+        const nextHiddenLines = props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
+        if (
+            !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
+            !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)
+        ) {
+            this.setState({
+                hiddenLines: nextHiddenLines,
+                requiredByValidator: requiredByValidator,
+            });
+        }
+    }
+
     private recalculateRequiredFields(props: FormLinesManagerProps<TData>) {
         const requiredByValidator = props.validator
             ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
@@ -100,6 +119,11 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
     @debounce(800, { leading: false })
     private recalculateRequiredFieldsDebounced(props: FormLinesManagerProps<TData>) {
         this.recalculateRequiredFields(props);
+    }
+
+    @debounce(800, { leading: false })
+    private recalculateRequiredAndHiddenFieldsDebounced(props: FormLinesManagerProps<TData>) {
+        this.recalculateRequiredAndHiddenFields(props);
     }
 
     @bind
