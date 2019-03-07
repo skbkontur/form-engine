@@ -76,7 +76,7 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         if (documentType) {
             MessageMonitoringLocalStorage.setVisibleFieldsInMessageCreatorNew(
                 documentType,
-                "GoodItem",
+                "Root",
                 this.state.hiddenLines
             );
         } else {
