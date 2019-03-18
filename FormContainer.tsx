@@ -130,6 +130,7 @@ interface FormContainerProps<TData, TContext> {
     validator?: GenericModelValidator<TData>;
     children: JSX.Element;
     autoEvaluator?: AutoEvaluator<TData>;
+    inModal?: boolean;
 }
 
 export class FormContainer<TData, TContext = any> extends React.Component<FormContainerProps<TData, TContext>> {
@@ -203,7 +204,9 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         return (
             <Provider store={this.store}>
                 <FormActionsContext.Provider value={this.rootActions}>
-                    <ValidationContainer ref={x => (this.validationContainer = x)}>
+                    <ValidationContainer
+                        ref={x => (this.validationContainer = x)}
+                        scrollOffset={this.props.inModal ? 100 : undefined}>
                         {this.props.children}
                     </ValidationContainer>
                 </FormActionsContext.Provider>
