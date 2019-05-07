@@ -42,7 +42,7 @@ export interface StructuredFormLineArray {
 export type StructuredFormItem = StructuredFormLineInfo | StructuredFormLineGroup;
 
 function toUpperCamelCasePath(normalizedPath: NormalizedPath): string {
-    return toUpperCamelCasePathWithSeparator(normalizedPath, ".");
+    return toUpperCamelCasePathWithSeparator(normalizedPath, "-");
 }
 
 function toUpperCamelCasePathWithSeparator(normalizedPath: NormalizedPath, separator: string): string {
