@@ -5,8 +5,10 @@ import { ValidationResult } from "Commons/Mutators/Types";
 
 import { AutoEvaluationControlState } from "./Controls/ControlBinding";
 import { FormAction } from "./FormStore/FormActions";
+import { AutoEvaluationsState } from "./FormStore/FormAutoEvaluations";
 import { FormState } from "./FormStore/FormState";
 import { NormalizedPath, Path } from "./Path";
+import { PathFilter } from "./Types";
 
 // TODO мне тут фатально именование не нравится
 
@@ -18,12 +20,15 @@ export interface FormContextActions<T, TContext extends {}> {
     userUpdateValue(path: NormalizedPath, value: any): FormAction;
     changeAutoEvaluationType(path: NormalizedPath, type: AutoValueType): FormAction;
     runAutoEvaluations(): FormAction;
+    runAllAutoEvaluations(fieldsToApply?: PathFilter): FormAction;
     dispatchCustomAction(action: any): void;
     getAutoEvaluationState<T, TChild>(
         formState: FormState<T>,
         path: Path<T, TChild>
     ): undefined | AutoEvaluationControlState<TChild>;
+    isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean;
     userChangeContext(path: NormalizedPath, nextContext: any): FormAction;
+    setAutoEvaliationStateToStore(state: AutoEvaluationsState<T>): FormAction;
 }
 
 export const FormActionsContext = createReactContext<FormContextActions<any, any>>(null as any);

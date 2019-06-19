@@ -4,6 +4,7 @@ import { ValidationResult } from "Commons/Mutators/Types";
 
 import { FormAction } from "./FormActions";
 import {
+    applyAllAutoEvaluatedType,
     changeAutoEvaluatedType,
     changeAutoEvaluatedValue,
     createEmptyAutoEvaluationState,
@@ -19,16 +20,17 @@ export function buildInitialState<T, TContext>(
     validator?: (value: T) => ValidationResult,
     autoEvaluator?: AutoEvaluator<T>
 ): FormState<T, TContext> {
+    const autoEvaluationStates =
+        autoEvaluator != undefined
+            ? initAutoEvaluationState(initialValue, autoEvaluator)
+            : createEmptyAutoEvaluationState<T>(initialValue);
     return {
-        value: initialValue,
         context: context,
         validationResult: validator != undefined ? validator(initialValue) : undefined,
         validator: validator,
         autoEvaluator: autoEvaluator,
-        autoEvaluationState:
-            autoEvaluator != undefined
-                ? initAutoEvaluationState(initialValue, autoEvaluator)
-                : createEmptyAutoEvaluationState<T>(),
+        autoEvaluationState: { nodeStates: autoEvaluationStates.nodeStates },
+        value: autoEvaluationStates.value,
     };
 }
 
@@ -57,6 +59,20 @@ export function formReducer<TData, TContext>(
         if (action.type === "RunAutoEvaluations") {
             let { value, autoEvaluationState } = state;
             [value, autoEvaluationState] = runAutoEvaluations(value, autoEvaluationState, autoEvaluator);
+            return {
+                ...state,
+                value: value,
+                autoEvaluationState: autoEvaluationState,
+            };
+        }
+        if (action.type === "RunAllAutoEvaluations") {
+            let { value, autoEvaluationState } = state;
+            [value, autoEvaluationState] = applyAllAutoEvaluatedType(
+                value,
+                autoEvaluationState,
+                autoEvaluator,
+                action.pathFilter
+            );
             return {
                 ...state,
                 value: value,
@@ -116,6 +132,13 @@ export function formReducer<TData, TContext>(
         return {
             ...state,
             context: nextContext,
+        };
+    }
+
+    if (action.type === "SetAutoEvaliationStateToStore") {
+        return {
+            ...state,
+            autoEvaluationState: action.state,
         };
     }
 

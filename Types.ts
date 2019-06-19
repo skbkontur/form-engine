@@ -40,3 +40,5 @@ export type GenericModelValidator<TData> = (value: TData) => ValidationResult;
 export type ValuePicker<T, TContext, TR> = (value: T, context: TContext) => TR;
 
 export type FormDispatch<TData> = Dispatch<FormState<TData>>;
+
+export type PathFilter = (path: string) => boolean;

@@ -1,7 +1,9 @@
+import _ from "lodash";
 import { AutoEvaluator, AutoValueType, NodePath, Return } from "Commons/AutoEvaluations/AutoEvaluators";
 import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
 
 import { NormalizedPath } from "../Path";
+import { PathFilter } from "../Types";
 
 import { getIn, setIn } from "./ImmutableOperators";
 
@@ -22,24 +24,38 @@ export interface AutoEvaluationsState<T> {
     nodeStates: NodeStates;
 }
 
-export function createEmptyAutoEvaluationState<T>(): AutoEvaluationsState<T> {
+export function createEmptyAutoEvaluationState<T>(value: T): AutoEvaluationsState<T> & { value: T } {
     return {
         nodeStates: {},
+        value: value,
     };
 }
 
-export function initAutoEvaluationState<T>(value: T, autoEvaluator: AutoEvaluator<T>): AutoEvaluationsState<T> {
+export function initAutoEvaluationState<T>(
+    value: T,
+    autoEvaluator: AutoEvaluator<T>
+): AutoEvaluationsState<T> & { value: T } {
     const nodeStates: NodeStates = {};
-    autoEvaluator(null, value, (autoEvaluatedValue: NodeValue, path: NodePath) => {
+    let newValue = _.cloneDeep(value);
+    autoEvaluator(null, newValue, (autoEvaluatedValue: NodeValue, path: NodePath) => {
         const currentValue = getIn(value, path);
         const pathKey = getKeyByNodePath(path);
-        if (currentValue == null && autoEvaluatedValue != null) {
+        if (currentValue == null && autoEvaluatedValue == null) {
             nodeStates[pathKey] = {
-                type: "Initial",
+                type: "AutoEvaluated",
+                autoValue: null,
+                lastManualValue: null,
+                initialValue: null,
+            };
+        } else if (currentValue == null && autoEvaluatedValue != null) {
+            nodeStates[pathKey] = {
+                type: "AutoEvaluated",
                 autoValue: autoEvaluatedValue,
                 lastManualValue: null,
                 initialValue: null,
             };
+            newValue = setIn(newValue, path, autoEvaluatedValue);
+            return Return.value(autoEvaluatedValue);
         } else if (currentValue !== autoEvaluatedValue) {
             nodeStates[pathKey] = {
                 type: "Initial",
@@ -54,11 +70,14 @@ export function initAutoEvaluationState<T>(value: T, autoEvaluator: AutoEvaluato
                 lastManualValue: null,
                 initialValue: currentValue,
             };
+            newValue = setIn(newValue, path, autoEvaluatedValue);
+            return Return.value(autoEvaluatedValue);
         }
         return Return.value(currentValue);
     });
     return {
         nodeStates: nodeStates,
+        value: newValue,
     };
 }
 
@@ -89,6 +108,23 @@ export function changeAutoEvaluatedType<T extends {}>(
         return nodeState;
     });
     return [nextState, nextAutoEvaluationState];
+}
+
+export function applyAllAutoEvaluatedType<T extends {}>(
+    value: T,
+    autoEvaluationState: AutoEvaluationsState<T>,
+    autoEvaluator: AutoEvaluator<T>,
+    pathFilter?: PathFilter
+): [T, AutoEvaluationsState<T>] {
+    const nextAutoEvaluationState = autoEvaluationState;
+    Object.keys(autoEvaluationState.nodeStates).forEach(nodeKey => {
+        if (pathFilter && !pathFilter(nodeKey)) {
+            return;
+        }
+        nextAutoEvaluationState.nodeStates[nodeKey].type = "AutoEvaluated";
+    });
+
+    return runAutoEvaluations(value, nextAutoEvaluationState, autoEvaluator);
 }
 
 function isSameValue<T>(left: T, right: T): boolean {

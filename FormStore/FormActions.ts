@@ -1,6 +1,9 @@
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 
 import { NormalizedPath } from "../Path";
+import { PathFilter } from "../Types";
+
+import { AutoEvaluationsState } from "./FormAutoEvaluations";
 
 interface FormUpdateAction {
     type: "UpdateValue";
@@ -43,15 +46,27 @@ interface UserChangeContextAction {
     path: NormalizedPath;
 }
 
+interface RunAllAutoEvaluations {
+    type: "RunAllAutoEvaluations";
+    pathFilter?: PathFilter;
+}
+
+interface SetAutoEvaliationStateToStore<T> {
+    type: "SetAutoEvaliationStateToStore";
+    state: AutoEvaluationsState<T>;
+}
+
 export type FormAction =
     | InitAction
     | FormReplaceValueAction
     | FormUpdateAction
     | FormReplaceValidatorAction
     | RunAutoEvaluationsAction
+    | RunAllAutoEvaluations
     | ChangeAutoEvaluationTypeAction
     | FormReplaceContextAction
-    | UserChangeContextAction;
+    | UserChangeContextAction
+    | SetAutoEvaliationStateToStore<any>;
 
 export function userUpdateValue(path: NormalizedPath, value: any): FormAction {
     return {
@@ -101,5 +116,19 @@ export function userChangeContext(path: NormalizedPath, value: any): FormAction 
         type: "UserChangeContext",
         value: value,
         path: path,
+    };
+}
+
+export function runAllAutoEvaluations(pathFilter?: PathFilter): FormAction {
+    return {
+        type: "RunAllAutoEvaluations",
+        pathFilter: pathFilter,
+    };
+}
+
+export function setAutoEvaliationStateToStore<T>(state: AutoEvaluationsState<T>): FormAction {
+    return {
+        type: "SetAutoEvaliationStateToStore",
+        state: state,
     };
 }

@@ -14,6 +14,7 @@ import {
     getPartialValidationResult,
     getValidationInfo,
     getValue,
+    isAllAutoEvaliationsEnabled,
 } from "./Controls/ControlBinding";
 import { FormActionsContext, FormContextActions } from "./FormActionsContext";
 import {
@@ -22,7 +23,9 @@ import {
     replaceContext,
     replaceValidator,
     replaceValue,
+    runAllAutoEvaluations,
     runAutoEvaluations,
+    setAutoEvaliationStateToStore,
     userChangeContext,
     userUpdateValue,
 } from "./FormStore/FormActions";
@@ -30,7 +33,7 @@ import { buildInitialState, formReducer } from "./FormStore/FormReducer";
 import { FormState } from "./FormStore/FormState";
 import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
-import { GenericModelValidator } from "./Types";
+import { GenericModelValidator, PathFilter } from "./Types";
 
 interface GoDeeperProps<TData, TChild> {
     path: Path<TData, TChild> | NormalizedPath;
@@ -39,24 +42,37 @@ interface GoDeeperProps<TData, TChild> {
 }
 
 class RootFormContextActions<T, TContext> implements FormContextActions<T, TContext> {
+    private readonly handleCustomAction?: (action: any) => void;
     public runAutoEvaluations = runAutoEvaluations;
+    public runAllAutoEvaluations = runAllAutoEvaluations;
     public changeAutoEvaluationType = changeAutoEvaluationType;
     public getValue = getValue;
     public getValidationInfo = getValidationInfo;
     public getPartialValidationResult = getPartialValidationResult;
     public userUpdateValue = userUpdateValue;
     public getAutoEvaluationState = getAutoEvaluationState;
+    public isAllAutoEvaliationsEnabled = isAllAutoEvaliationsEnabled;
     public getValueFromContext = getValue;
     public userChangeContext = userChangeContext;
 
-    public dispatchCustomAction(action: any): void {
-        throw new Error("NotImplementedError");
+    public setAutoEvaliationStateToStore = setAutoEvaliationStateToStore;
+
+    public constructor(handleCustomAction?: (action: any) => void) {
+        this.handleCustomAction = handleCustomAction;
     }
+
+    public dispatchCustomAction = (action: any): void => {
+        if (this.handleCustomAction != undefined) {
+            this.handleCustomAction(action);
+        }
+    };
 }
 
 class NestedFormContextActions<T, TContext> implements FormContextActions<T, TContext> {
     private readonly pathPrefix: NormalizedPath;
     private readonly handleCustomAction?: (action: any) => void;
+
+    public setAutoEvaliationStateToStore = setAutoEvaliationStateToStore;
 
     public constructor(pathPrefix: NormalizedPath, handleCustomAction?: (action: any) => void) {
         this.pathPrefix = pathPrefix;
@@ -86,12 +102,26 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
             combineNormalizedPath(this.pathPrefix, getNormalizedPath(path))
         );
 
+    public isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean {
+        const autoEvaluationState = formState.autoEvaluationState;
+        if (autoEvaluationState == undefined) {
+            return false;
+        }
+        return Object.keys(autoEvaluationState.nodeStates)
+            .filter(x => pathFilter && pathFilter(x))
+            .every(x => autoEvaluationState.nodeStates[x].type === "AutoEvaluated");
+    }
+
     public changeAutoEvaluationType(path: NormalizedPath, type: AutoValueType): FormAction {
         return changeAutoEvaluationType(combineNormalizedPath(this.pathPrefix, path), type);
     }
 
     public runAutoEvaluations(): FormAction {
         return runAutoEvaluations();
+    }
+
+    public runAllAutoEvaluations(pathFilter?: PathFilter): FormAction {
+        return runAllAutoEvaluations(pathFilter);
     }
 
     public dispatchCustomAction(action: any): void {
@@ -136,6 +166,7 @@ interface FormContainerProps<TData, TContext> {
     validator?: GenericModelValidator<TData>;
     children: JSX.Element;
     autoEvaluator?: AutoEvaluator<TData>;
+    onCustomAction?: (action: any) => void;
     inModal?: boolean;
 }
 
@@ -144,6 +175,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
     public unsubscribeFromStore?: Unsubscribe;
     public validationContainer: ValidationContainer | null;
     public rootActions: FormContextActions<TData, TContext>;
+    public deepActions: FormContextActions<TData, TContext>;
 
     public constructor(props: FormContainerProps<TData, TContext>) {
         super(props);
@@ -153,7 +185,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
             buildInitialState(props.value, props.context, props.validator, props.autoEvaluator),
             storeEnhancer
         );
-        this.rootActions = new RootFormContextActions<TData, TContext>();
+        this.rootActions = new RootFormContextActions<TData, TContext>(this.handleCustomAction);
         this.unsubscribeFromStore = this.store.subscribe(this.handleStateChange);
     }
 
@@ -162,7 +194,8 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         return (
             nextProps.value !== state.value ||
             nextProps.validator !== state.validator ||
-            Object.keys(nextProps.context).some(key => this.props.context[key] !== nextProps.context[key])
+            (nextProps.context != null &&
+                Object.keys(nextProps.context).some(key => this.props.context[key] !== nextProps.context[key]))
         );
     }
 
@@ -181,7 +214,10 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         if (nextProps.validator !== state.validator) {
             this.store.dispatch(replaceValidator(nextProps.validator));
         }
-        if (Object.keys(nextProps.context).some(key => nextProps.context[key] !== state.context[key])) {
+        if (
+            nextProps.context != null &&
+            Object.keys(nextProps.context).some(key => nextProps.context[key] !== state.context[key])
+        ) {
             this.store.dispatch(replaceContext(nextProps.context));
         }
     }
@@ -205,6 +241,13 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         }
         return;
     }
+
+    public readonly handleCustomAction = (action: any) => {
+        const { onCustomAction } = this.props;
+        if (onCustomAction != undefined) {
+            onCustomAction(action);
+        }
+    };
 
     public render(): JSX.Element {
         return (

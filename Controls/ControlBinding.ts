@@ -7,7 +7,7 @@ import { ValidationResult, ValidationResultItem } from "Commons/Mutators/Types";
 import { FormState } from "../FormStore/FormState";
 import { getIn, setIn } from "../FormStore/ImmutableOperators";
 import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
-import { GenericModelValidator } from "../Types";
+import { GenericModelValidator, PathFilter } from "../Types";
 
 export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));
@@ -45,6 +45,16 @@ export function getAutoEvaluationStateFromNormalizedPath<T, TChild>(
         lastManualValue: controlState.lastManualValue,
         type: controlState.type,
     };
+}
+
+export function isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean {
+    const autoEvaluationState = formState.autoEvaluationState;
+    if (autoEvaluationState == undefined) {
+        return false;
+    }
+    return Object.keys(autoEvaluationState.nodeStates)
+        .filter(x => pathFilter && pathFilter(x))
+        .every(x => autoEvaluationState.nodeStates[x].type === "AutoEvaluated");
 }
 
 export function getValidationInfo<TData>(state: FormState<TData>, path: NormalizedPath): undefined | ValidationInfo {
