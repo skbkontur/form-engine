@@ -5,11 +5,13 @@ import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
 import { AutoEvaluator, AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
+import { ValidationResult } from "Commons/Mutators/Types";
 
 import {
     AutoEvaluationControlState,
     getAutoEvaluationState,
     getAutoEvaluationStateFromNormalizedPath,
+    getPartialValidationResult,
     getValidationInfo,
     getValue,
 } from "./Controls/ControlBinding";
@@ -41,6 +43,7 @@ class RootFormContextActions<T, TContext> implements FormContextActions<T, TCont
     public changeAutoEvaluationType = changeAutoEvaluationType;
     public getValue = getValue;
     public getValidationInfo = getValidationInfo;
+    public getPartialValidationResult = getPartialValidationResult;
     public userUpdateValue = userUpdateValue;
     public getAutoEvaluationState = getAutoEvaluationState;
     public getValueFromContext = getValue;
@@ -67,6 +70,9 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
 
     public getValidationInfo = (state: any, path: NormalizedPath): undefined | ValidationInfo =>
         getValidationInfo(state, combineNormalizedPath(this.pathPrefix, path));
+
+    public getPartialValidationResult = (state: any, path: NormalizedPath): undefined | ValidationResult =>
+        getPartialValidationResult(state, combineNormalizedPath(this.pathPrefix, path));
 
     public userUpdateValue = (path: NormalizedPath, value: any): FormAction =>
         userUpdateValue(combineNormalizedPath(this.pathPrefix, path), value);
