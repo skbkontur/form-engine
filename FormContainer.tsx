@@ -35,7 +35,7 @@ import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
 import { GenericModelValidator, PathFilter } from "./Types";
 
-interface GoDeeperProps<TData, TChild> {
+interface NestedFormContainerProps<TData, TChild> {
     path: Path<TData, TChild> | NormalizedPath;
     onCustomAction?: (action: any) => void;
     children: JSX.Element;
@@ -135,10 +135,12 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
     }
 }
 
-export class GoDeeper<TData, TChild, TContext> extends React.Component<GoDeeperProps<TData, TChild>> {
+export class NestedFormContainer<TData, TChild, TContext> extends React.Component<
+    NestedFormContainerProps<TData, TChild>
+> {
     public deepActions: FormContextActions<TData, TContext>;
 
-    public constructor(props: GoDeeperProps<TData, TChild>) {
+    public constructor(props: NestedFormContainerProps<TData, TChild>) {
         super(props);
         const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
         this.deepActions = new NestedFormContextActions<TData, TContext>(pathPrefix, this.handleCustomAction);
@@ -175,7 +177,6 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
     public unsubscribeFromStore?: Unsubscribe;
     public validationContainer: ValidationContainer | null;
     public rootActions: FormContextActions<TData, TContext>;
-    public deepActions: FormContextActions<TData, TContext>;
 
     public constructor(props: FormContainerProps<TData, TContext>) {
         super(props);
