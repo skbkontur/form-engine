@@ -251,9 +251,9 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         return true;
     }
 
-    public submit(): void {
+    public submit(withoutFocus?: boolean): void {
         if (this.validationContainer != null) {
-            this.validationContainer.submit();
+            this.validationContainer.submit(withoutFocus);
         }
         return;
     }
@@ -271,7 +271,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
                 <FormActionsContext.Provider value={this.rootActions}>
                     <ValidationContainer
                         ref={x => (this.validationContainer = x)}
-                        scrollOffset={this.props.inModal ? 100 : undefined}>
+                        scrollOffset={this.props.inModal ? { top: 100 } : undefined}>
                         {this.props.children}
                     </ValidationContainer>
                 </FormActionsContext.Provider>
