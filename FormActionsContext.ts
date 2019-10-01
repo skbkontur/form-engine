@@ -27,7 +27,6 @@ export interface FormContextActions<T, TContext extends {}> {
         path: Path<T, TChild>
     ): undefined | AutoEvaluationControlState<TChild>;
     isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean;
-    userChangeContext(path: NormalizedPath, nextContext: any): FormAction;
     setAutoEvaliationStateToStore(state: AutoEvaluationsState<T>): FormAction;
 }
 

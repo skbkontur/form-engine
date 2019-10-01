@@ -26,7 +26,6 @@ import {
     runAllAutoEvaluations,
     runAutoEvaluations,
     setAutoEvaliationStateToStore,
-    userChangeContext,
     userUpdateValue,
 } from "./FormStore/FormActions";
 import { buildInitialState, formReducer } from "./FormStore/FormReducer";
@@ -53,7 +52,6 @@ class RootFormContextActions<T, TContext> implements FormContextActions<T, TCont
     public getAutoEvaluationState = getAutoEvaluationState;
     public isAllAutoEvaliationsEnabled = isAllAutoEvaliationsEnabled;
     public getValueFromContext = getValue;
-    public userChangeContext = userChangeContext;
 
     public setAutoEvaliationStateToStore = setAutoEvaliationStateToStore;
 
@@ -128,10 +126,6 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
         if (this.handleCustomAction != undefined) {
             this.handleCustomAction(action);
         }
-    }
-
-    public userChangeContext(path: NormalizedPath, nextContext: any): FormAction {
-        return userChangeContext(path, nextContext);
     }
 }
 
