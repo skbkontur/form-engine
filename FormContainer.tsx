@@ -34,8 +34,9 @@ import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
 import { GenericModelValidator, PathFilter } from "./Types";
 
-interface NestedFormContainerProps<TData, TChild> {
+interface NestedFormContainerProps<TData, TChild, TDataContext, TChildContext> {
     path: Path<TData, TChild> | NormalizedPath;
+    contextPath?: Path<TDataContext, TChildContext> | NormalizedPath;
     onCustomAction?: (action: any) => void;
     children: JSX.Element;
 }
@@ -68,19 +69,31 @@ class RootFormContextActions<T, TContext> implements FormContextActions<T, TCont
 
 class NestedFormContextActions<T, TContext> implements FormContextActions<T, TContext> {
     private readonly pathPrefix: NormalizedPath;
+    private readonly contextPathPrefix?: NormalizedPath;
     private readonly handleCustomAction?: (action: any) => void;
 
     public setAutoEvaliationStateToStore = setAutoEvaliationStateToStore;
 
-    public constructor(pathPrefix: NormalizedPath, handleCustomAction?: (action: any) => void) {
+    public constructor(
+        pathPrefix: NormalizedPath,
+        contextPath?: NormalizedPath,
+        handleCustomAction?: (action: any) => void
+    ) {
         this.pathPrefix = pathPrefix;
+        this.contextPathPrefix = contextPath;
         this.handleCustomAction = handleCustomAction;
     }
 
     public getValue = (target: any, path: any): any =>
         getIn(target, combineNormalizedPath(this.pathPrefix, getNormalizedPath(path)));
 
-    public getValueFromContext = (target: any, path: any): any => getIn(target, getNormalizedPath(path));
+    public getValueFromContext = (target: any, path: any): any =>
+        getIn(
+            target,
+            this.contextPathPrefix == null
+                ? getNormalizedPath(path)
+                : combineNormalizedPath(this.contextPathPrefix, getNormalizedPath(path))
+        );
 
     public getValidationInfo = (state: any, path: NormalizedPath): undefined | ValidationInfo =>
         getValidationInfo(state, combineNormalizedPath(this.pathPrefix, path));
@@ -129,15 +142,23 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
     }
 }
 
-export class NestedFormContainer<TData, TChild, TContext> extends React.Component<
-    NestedFormContainerProps<TData, TChild>
+export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TDataContext> extends React.Component<
+    NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>
 > {
-    public deepActions: FormContextActions<TData, TContext>;
+    public deepActions: FormContextActions<TData, TDataContext>;
 
-    public constructor(props: NestedFormContainerProps<TData, TChild>) {
+    public constructor(props: NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>) {
         super(props);
         const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
-        this.deepActions = new NestedFormContextActions<TData, TContext>(pathPrefix, this.handleCustomAction);
+        const contextPathPrefix =
+            props.contextPath == null || Array.isArray(props.contextPath)
+                ? props.contextPath
+                : getNormalizedPath(props.contextPath);
+        this.deepActions = new NestedFormContextActions<TData, TDataContext>(
+            pathPrefix,
+            contextPathPrefix,
+            this.handleCustomAction
+        );
     }
 
     public readonly handleCustomAction = (action: any) => {
