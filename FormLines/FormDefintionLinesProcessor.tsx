@@ -7,7 +7,7 @@ import { getNormalizedPath, NormalizedPath } from "../Path";
 
 import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
 
-interface ProcessedForm {
+export interface ProcessedForm {
     formDefinition: JSX.Element;
     lines: FormLineInfo[];
     structuredLines: StructuredFormItem[];
