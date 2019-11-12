@@ -1,4 +1,3 @@
-import bind from "bind-decorator";
 import * as _ from "lodash";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
@@ -69,8 +68,7 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         });
     }
 
-    @bind
-    private handleSaveLines() {
+    private readonly handleSaveLines = () => {
         const { documentType } = this.props;
 
         if (documentType) {
@@ -82,7 +80,7 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         } else {
             throw new Error("documentType must be defined");
         }
-    }
+    };
 
     private recalculateRequiredAndHiddenFields(props: FormLinesManagerProps<TData>) {
         const requiredByValidator = props.validator
@@ -126,15 +124,14 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         this.recalculateRequiredAndHiddenFields(props);
     }
 
-    @bind
-    private handleChangeHiddenFields(hiddenLines: FormLineId[]) {
+    private readonly handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
         this.setState({
             hiddenLines: hiddenLines,
         });
         this.props.onChangeValue(
             updateValueByHiddenLinesWithPreseveValues(this.props.value, this.props.lines, hiddenLines)
         );
-    }
+    };
 }
 
 function isArrayContainsSameItems<T>(left: T[], right: T[]) {

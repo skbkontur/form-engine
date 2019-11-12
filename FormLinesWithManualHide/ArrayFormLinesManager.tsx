@@ -1,4 +1,3 @@
-import bind from "bind-decorator";
 import * as _ from "lodash";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
@@ -69,8 +68,7 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         });
     }
 
-    @bind
-    private handleSaveLines() {
+    private readonly handleSaveLines = () => {
         const { documentType } = this.props;
 
         if (documentType) {
@@ -82,17 +80,16 @@ export class ArrayChildFormLinesManager<TData> extends React.Component<
         } else {
             throw new Error("documentType must be defined");
         }
-    }
+    };
 
-    @bind
-    private handleChangeHiddenFields(hiddenLines: FormLineId[]) {
+    private readonly handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
         this.setState({
             hiddenLines: hiddenLines,
         });
         this.props.onChangeValue(
             updateValueByHiddenLinesWithPreseveValuesForArray(this.props.value, this.props.lines, hiddenLines) || []
         );
-    }
+    };
 
     private recalculateRequiredFields(props: ArrayChildFormLinesManagerProps<TData>) {
         const requiredByValidator = props.validator
