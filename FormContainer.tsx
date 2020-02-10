@@ -123,9 +123,8 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
             .every(x => autoEvaluationState.nodeStates[x].type === "AutoEvaluated");
     }
 
-    public changeAutoEvaluationType(path: NormalizedPath, type: AutoValueType): FormAction {
-        return changeAutoEvaluationType(combineNormalizedPath(this.pathPrefix, path), type);
-    }
+    public changeAutoEvaluationType = (path: NormalizedPath, type: AutoValueType): FormAction =>
+        changeAutoEvaluationType(combineNormalizedPath(this.pathPrefix, path), type);
 
     public runAutoEvaluations(): FormAction {
         return runAutoEvaluations();
