@@ -165,8 +165,9 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             const dataTid1 = lineInfo.fields.map(toUpperCamelCasePath).join("") + "Line";
             const dataTid2 =
                 lineInfo.fields.length > 1 ? lineInfo.fields.map(toUpperCamelCasePath).join("_") : undefined;
+            const dataTid3 = element.props["data-tid"] != null ? element.props["data-tid"] : undefined;
             return React.cloneElement(element, {
-                "data-tid": concatTids(dataTid1, dataTid2),
+                "data-tid": concatTids(dataTid1, dataTid2, dataTid3),
                 internalId: id,
             });
         }
