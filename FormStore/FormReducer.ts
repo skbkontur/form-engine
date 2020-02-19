@@ -26,7 +26,7 @@ export function buildInitialState<T, TContext>(
             : createEmptyAutoEvaluationState<T>(initialValue);
     return {
         context: context,
-        validationResult: validator != undefined ? validator(initialValue) : undefined,
+        validationResult: validator != undefined ? validator(autoEvaluationStates.value) : undefined,
         validator: validator,
         autoEvaluator: autoEvaluator,
         autoEvaluationState: { nodeStates: autoEvaluationStates.nodeStates },
