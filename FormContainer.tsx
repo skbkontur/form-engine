@@ -146,8 +146,16 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
 > {
     public deepActions: FormContextActions<TData, TDataContext>;
 
-    public constructor(props: NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>) {
-        super(props);
+    public readonly handleCustomAction = (action: any) => {
+        const { onCustomAction } = this.props;
+        if (onCustomAction != undefined) {
+            onCustomAction(action);
+        }
+    };
+
+    public render(): JSX.Element {
+        console.info("Re-render NestedFormContainer");
+        const props = this.props;
         const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
         const contextPathPrefix =
             props.contextPath == null || Array.isArray(props.contextPath)
@@ -158,16 +166,6 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
             contextPathPrefix,
             this.handleCustomAction
         );
-    }
-
-    public readonly handleCustomAction = (action: any) => {
-        const { onCustomAction } = this.props;
-        if (onCustomAction != undefined) {
-            onCustomAction(action);
-        }
-    };
-
-    public render(): JSX.Element {
         return (
             <FormActionsContext.Provider value={this.deepActions}>{this.props.children}</FormActionsContext.Provider>
         );
