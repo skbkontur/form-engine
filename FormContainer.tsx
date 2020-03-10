@@ -154,7 +154,6 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
     };
 
     public render(): JSX.Element {
-        console.info("Re-render NestedFormContainer");
         const props = this.props;
         const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
         const contextPathPrefix =
