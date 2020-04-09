@@ -48,23 +48,25 @@ export function updateValueByHiddenLinesWithPreseveValues<T>(
     const hiddenLines = formLineInfos.filter(x => hiddenLineIds.includes(x.id));
 
     // TODO срочно переписать, так чтобы было понятно!!!
-    result = hiddenLines.filter(x => someFieldOfLineFilled(subject, x)).reduce(
-        (rootSubject, line) =>
-            line.fields.reduce((xxx, path) => {
-                const fieldValue = getIn(xxx, path);
-                if (fieldValue != null) {
-                    let childResult = xxx;
-                    childResult = setIn(childResult, ["__HIDDEN_FIELDS__"], {
-                        ...childResult["__HIDDEN_FIELDS__"],
-                        [path.join(".")]: fieldValue,
-                    });
-                    childResult = setIn(childResult, path, undefined);
-                    return childResult;
-                }
-                return xxx;
-            }, rootSubject),
-        result
-    );
+    result = hiddenLines
+        .filter(x => someFieldOfLineFilled(subject, x))
+        .reduce(
+            (rootSubject, line) =>
+                line.fields.reduce((xxx, path) => {
+                    const fieldValue = getIn(xxx, path);
+                    if (fieldValue != null) {
+                        let childResult = xxx;
+                        childResult = setIn(childResult, ["__HIDDEN_FIELDS__"], {
+                            ...childResult["__HIDDEN_FIELDS__"],
+                            [path.join(".")]: fieldValue,
+                        });
+                        childResult = setIn(childResult, path, undefined);
+                        return childResult;
+                    }
+                    return xxx;
+                }, rootSubject),
+            result
+        );
     result = formLineInfos
         .filter(x => !hiddenLineIds.includes(x.id))
         .filter(x => someFieldOfLineHidden(subject, x))

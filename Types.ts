@@ -3,10 +3,6 @@ import { ValidationResult } from "Commons/Mutators/Types";
 
 import { FormState } from "./FormStore/FormState";
 
-type Diff<T, U> = T extends U ? never : T;
-
-type NonNullable<T> = Diff<T, null | undefined>;
-
 // tslint:disable:prettier
 export type DeepNonNullable<T> =
     T extends Nullable<string> ? T :
@@ -17,7 +13,7 @@ export type DeepNonNullable<T> =
             T[P] extends Array<infer U> ? Array<DeepNonNullable<U>> :
             T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepNonNullable<U>> :
             T[P] extends Nullable<Array<infer U>> ? Array<DeepNonNullable<U>> :
-            T[P] extends Object ? DeepNonNullable<NonNullable<T[P]>> :
+            T[P] extends Nullable<Object> ? DeepNonNullable<NonNullable<T[P]>> :
             T[P]
     };
 
@@ -30,7 +26,7 @@ export type DeepNonNullableWithLeafs<T> =
         T[P] extends Array<infer U> ? Array<DeepNonNullableWithLeafs<U>> :
         T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepNonNullableWithLeafs<U>> :
         T[P] extends Nullable<Array<infer U>> ? Array<DeepNonNullableWithLeafs<U>> :
-        T[P] extends Object ? DeepNonNullableWithLeafs<NonNullable<T[P]>> :
+        T[P] extends Nullable<Object> ? DeepNonNullableWithLeafs<NonNullable<T[P]>> :
         T[P]
     };
 // tslint:enable:prettier

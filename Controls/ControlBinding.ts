@@ -105,10 +105,12 @@ export function getChildValidator<TData, TChild>(
     }
     return (childValue: TChild) => {
         const rootResult = validator(setIn(rootValue, path, childValue));
-        const result = rootResult.filter(x => startsWith(x.path, path)).map(x => ({
-            ...x,
-            path: x.path.slice(path.length),
-        }));
+        const result = rootResult
+            .filter(x => startsWith(x.path, path))
+            .map(x => ({
+                ...x,
+                path: x.path.slice(path.length),
+            }));
         return result;
     };
 }
@@ -118,6 +120,11 @@ function getLastValidationInfoByPath(
     path: NormalizedPath
 ): ValidationResultItem | undefined {
     const stringPath = path.map(x => x.toString());
-    const result = _.findLast(validationResult, x => _.isEqual(x.path.map(x => x.toString()), stringPath));
+    const result = _.findLast(validationResult, x =>
+        _.isEqual(
+            x.path.map(x => x.toString()),
+            stringPath
+        )
+    );
     return result;
 }
