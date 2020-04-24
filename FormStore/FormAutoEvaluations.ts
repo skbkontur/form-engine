@@ -8,6 +8,17 @@ import { PathFilter } from "../Types";
 import { getIn, setIn } from "./ImmutableOperators";
 
 type NodeValue = any;
+type CustomAutoEvaluationHandler = (
+    pathKey: string,
+    autoEvaluatedValue: NodeValue,
+    currentValue: any
+) => CustomAutoEvaluationHandlerResult | null;
+
+export interface CustomAutoEvaluationHandlerResult {
+    path: string;
+    nodeState: NodeState;
+    selectedValue: any;
+}
 
 export interface NodeState {
     type: AutoValueType;
@@ -33,13 +44,24 @@ export function createEmptyAutoEvaluationState<T>(value: T): AutoEvaluationsStat
 
 export function initAutoEvaluationState<T>(
     value: T,
-    autoEvaluator: AutoEvaluator<T>
+    autoEvaluator: AutoEvaluator<T>,
+    customAutoEvaluationHandler?: CustomAutoEvaluationHandler
 ): AutoEvaluationsState<T> & { value: T } {
     const nodeStates: NodeStates = {};
     let newValue = _.cloneDeep(value);
     autoEvaluator(null, newValue, (autoEvaluatedValue: NodeValue, path: NodePath) => {
         const currentValue = getIn(value, path);
         const pathKey = getKeyByNodePath(path);
+
+        if (customAutoEvaluationHandler != null) {
+            const result = customAutoEvaluationHandler(pathKey, autoEvaluatedValue, currentValue);
+            if (result != null) {
+                nodeStates[result.path] = result.nodeState;
+                newValue = setIn(newValue, path, result.selectedValue);
+                return Return.value(result.selectedValue);
+            }
+        }
+
         if (currentValue == null && autoEvaluatedValue == null) {
             nodeStates[pathKey] = {
                 type: "AutoEvaluated",
@@ -223,28 +245,6 @@ export function runAutoEvaluations<T>(
             };
             return Return.unchanged;
         } else {
-            // if (currentValue == null && autoEvaluatedValue != null) {
-            //     nodeStates[pathKey] = {
-            //         type: "Initial",
-            //         autoValue: autoEvaluatedValue,
-            //         lastManualValue: null,
-            //         initialValue: null,
-            //     };
-            // } else if (currentValue != autoEvaluatedValue) {
-            //     nodeStates[pathKey] = {
-            //         type: "Initial",
-            //         autoValue: autoEvaluatedValue,
-            //         lastManualValue: null,
-            //         initialValue: currentValue,
-            //     };
-            // } else if (currentValue == autoEvaluatedValue) {
-            //     nodeStates[pathKey] = {
-            //         type: "AutoEvaluated",
-            //         autoValue: autoEvaluatedValue,
-            //         lastManualValue: null,
-            //         initialValue: currentValue,
-            //     };
-            // }
             nodeStates[pathKey] = {
                 ...nodeState,
                 autoValue: autoEvaluatedValue,
