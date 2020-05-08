@@ -1,4 +1,4 @@
-import createReactContext from "create-react-context";
+import React from "react";
 
 import { NormalizedPath } from "../Path";
 
@@ -7,7 +7,7 @@ export interface MessageFormLinesContextValue {
     goodItemRequiredByDefaultPaths: NormalizedPath[];
 }
 
-export const MessageFormLinesContext = createReactContext<MessageFormLinesContextValue>({
+export const MessageFormLinesContext = React.createContext<MessageFormLinesContextValue>({
     requiredByDefaultPaths: [],
     goodItemRequiredByDefaultPaths: [],
 });

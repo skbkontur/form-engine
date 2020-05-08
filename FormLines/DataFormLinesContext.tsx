@@ -1,5 +1,5 @@
-import createContext, { Context } from "create-react-context";
+import React from "react";
 
 import { FormLineId } from "./FormDefintionLinesProcessor";
 
-export const DataFormLinesContext: Context<FormLineId[]> = createContext<FormLineId[]>([]);
+export const DataFormLinesContext = React.createContext<FormLineId[]>([]);

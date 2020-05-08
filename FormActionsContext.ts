@@ -1,5 +1,5 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
-import createReactContext from "create-react-context";
+import React from "react";
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { ValidationResult } from "Commons/Mutators/Types";
 
@@ -30,4 +30,4 @@ export interface FormContextActions<T, TContext extends {}> {
     setAutoEvaliationStateToStore(state: AutoEvaluationsState<T>): FormAction;
 }
 
-export const FormActionsContext = createReactContext<FormContextActions<any, any>>(null as any);
+export const FormActionsContext = React.createContext<FormContextActions<any, any>>(null as any);
