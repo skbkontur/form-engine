@@ -50,17 +50,23 @@ export function formReducer<TData, TContext>(
                 action.value
             );
             [value, autoEvaluationState] = runAutoEvaluations(value, autoEvaluationState, autoEvaluator);
+            const validationResult = state.validator != undefined ? state.validator(value) : undefined;
+
             return {
                 ...state,
                 value: value,
+                validationResult: validationResult,
                 autoEvaluationState: autoEvaluationState,
             };
         }
         if (action.type === "RunAutoEvaluations") {
             let { value, autoEvaluationState } = state;
             [value, autoEvaluationState] = runAutoEvaluations(value, autoEvaluationState, autoEvaluator);
+            const validationResult = state.validator != undefined ? state.validator(value) : undefined;
+
             return {
                 ...state,
+                validationResult: validationResult,
                 value: value,
                 autoEvaluationState: autoEvaluationState,
             };
@@ -73,12 +79,16 @@ export function formReducer<TData, TContext>(
                 autoEvaluator,
                 action.pathFilter
             );
+            const validationResult = state.validator != undefined ? state.validator(value) : undefined;
+
             return {
                 ...state,
                 value: value,
+                validationResult: validationResult,
                 autoEvaluationState: autoEvaluationState,
             };
         }
+
         if (action.type === "UpdateValue") {
             const nextValue = setIn(state.value, action.path, action.value);
             const validationResult = state.validator != undefined ? state.validator(nextValue) : undefined;
