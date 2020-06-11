@@ -1,5 +1,5 @@
 import { ValidationContainer, ValidationInfo } from "@skbkontur/react-ui-validations";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
@@ -209,7 +209,11 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
             storeEnhancer
         );
 
-        this.handleStateChange();
+        const valueInStore = this.store.getState().value;
+        if (!isEqual(props.value, valueInStore)) {
+            props.onChange(valueInStore);
+        }
+
         this.rootActions = new RootFormContextActions<TData, TContext>(this.handleCustomAction);
         this.unsubscribeFromStore = this.store.subscribe(this.handleStateChange);
     }
