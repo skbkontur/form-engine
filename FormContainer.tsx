@@ -208,6 +208,8 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
             ),
             storeEnhancer
         );
+
+        this.handleStateChange();
         this.rootActions = new RootFormContextActions<TData, TContext>(this.handleCustomAction);
         this.unsubscribeFromStore = this.store.subscribe(this.handleStateChange);
     }
