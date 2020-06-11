@@ -27,7 +27,7 @@ export interface NodeState {
     initialValue: NodeValue;
 }
 
-interface NodeStates {
+export interface NodeStates {
     [path: string]: NodeState;
 }
 
