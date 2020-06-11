@@ -28,6 +28,7 @@ import {
     setAutoEvaliationStateToStore,
     userUpdateValue,
 } from "./FormStore/FormActions";
+import { AutoEvaluationsState } from "./FormStore/FormAutoEvaluations";
 import { buildInitialState, formReducer } from "./FormStore/FormReducer";
 import { FormState } from "./FormStore/FormState";
 import { getIn } from "./FormStore/ImmutableOperators";
@@ -181,6 +182,10 @@ interface FormContainerProps<TData, TContext> {
     autoEvaluator?: AutoEvaluator<TData>;
     onCustomAction?: (action: any) => void;
     inModal?: boolean;
+    customInitAutoEvaluationState?: (
+        value: TData,
+        autoEvaluator: AutoEvaluator<TData>
+    ) => AutoEvaluationsState<TData> & { value: TData };
 }
 
 export class FormContainer<TData, TContext = any> extends React.Component<FormContainerProps<TData, TContext>> {
@@ -194,7 +199,13 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         const storeEnhancer = devToolsEnhancer({ name: props.storeName });
         this.store = createStore(
             formReducer,
-            buildInitialState(props.value, props.context, props.validator, props.autoEvaluator),
+            buildInitialState(
+                props.value,
+                props.context,
+                props.validator,
+                props.autoEvaluator,
+                props.customInitAutoEvaluationState
+            ),
             storeEnhancer
         );
         this.rootActions = new RootFormContextActions<TData, TContext>(this.handleCustomAction);

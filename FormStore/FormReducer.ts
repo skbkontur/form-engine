@@ -5,6 +5,7 @@ import { ValidationResult } from "Commons/Mutators/Types";
 import { FormAction } from "./FormActions";
 import {
     applyAllAutoEvaluatedType,
+    AutoEvaluationsState,
     changeAutoEvaluatedType,
     changeAutoEvaluatedValue,
     createEmptyAutoEvaluationState,
@@ -18,11 +19,17 @@ export function buildInitialState<T, TContext>(
     initialValue: T,
     context: TContext,
     validator?: (value: T) => ValidationResult,
-    autoEvaluator?: AutoEvaluator<T>
+    autoEvaluator?: AutoEvaluator<T>,
+    customInitAutoEvaluationState?: (
+        value: T,
+        autoEvaluator: AutoEvaluator<T>
+    ) => AutoEvaluationsState<T> & { value: T }
 ): FormState<T, TContext> {
     const autoEvaluationStates =
         autoEvaluator != undefined
-            ? initAutoEvaluationState(initialValue, autoEvaluator)
+            ? customInitAutoEvaluationState == null
+                ? initAutoEvaluationState(initialValue, autoEvaluator)
+                : customInitAutoEvaluationState(initialValue, autoEvaluator)
             : createEmptyAutoEvaluationState<T>(initialValue);
     return {
         context: context,
