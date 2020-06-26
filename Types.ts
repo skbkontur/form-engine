@@ -4,19 +4,6 @@ import { ValidationResult } from "Commons/Mutators/Types";
 import { FormState } from "./FormStore/FormState";
 
 // tslint:disable:prettier
-export type DeepNonNullable<T> =
-    T extends Nullable<string> ? T :
-    T extends Nullable<number> ? T :
-    T extends Nullable<string | Date> ? T :
-    {
-        [P in keyof T]-?:
-            T[P] extends Array<infer U> ? Array<DeepNonNullable<U>> :
-            T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<DeepNonNullable<U>> :
-            T[P] extends Nullable<Array<infer U>> ? Array<DeepNonNullable<U>> :
-            T[P] extends Nullable<Object> ? DeepNonNullable<NonNullable<T[P]>> :
-            T[P]
-    };
-
 export type DeepNonNullableWithLeafs<T> =
     T extends Nullable<string> ? string :
     T extends Nullable<number> ? number :
