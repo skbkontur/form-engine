@@ -12,7 +12,7 @@ interface ConnectTypingProps<TData, TMappedProps, TContext> {
         props: TMappedProps,
         dispatch: FormDispatch<TData>,
         actions: FormContextActions<TData, TContext>
-    ) => JSX.Element;
+    ) => JSX.Element | null;
 }
 
 class ConnectTyping<TData, TMapped, TContext> extends React.Component<ConnectTypingProps<TData, TMapped, TContext>> {}
@@ -32,7 +32,7 @@ interface ConnectControlProps<TData, TMappedProps, TContext> {
         props: TMappedProps,
         dispatch: FormDispatch<TData>,
         actions: FormContextActions<TData, TContext>
-    ) => JSX.Element;
+    ) => JSX.Element | null;
 }
 
 export class ConnectControl<TData, TMappedProps, TContext> extends React.Component<
