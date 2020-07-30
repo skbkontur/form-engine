@@ -1,5 +1,5 @@
-import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import React from "react";
+import { ValidationInfo } from "ui/validation";
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { ValidationResult } from "Commons/Mutators/Types";
 
@@ -9,8 +9,6 @@ import { AutoEvaluationsState } from "./FormStore/FormAutoEvaluations";
 import { FormState } from "./FormStore/FormState";
 import { NormalizedPath, Path } from "./Path";
 import { PathFilter } from "./Types";
-
-// TODO мне тут фатально именование не нравится
 
 export interface FormContextActions<T, TContext extends {}> {
     getValidationInfo<T>(state: FormState<T>, path: NormalizedPath): undefined | ValidationInfo;

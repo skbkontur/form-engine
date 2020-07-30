@@ -1,9 +1,9 @@
-import { ValidationContainer, ValidationInfo } from "@skbkontur/react-ui-validations";
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
+import { ValidationContainer, ValidationInfo } from "ui/validation";
 import { AutoEvaluator, AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { ValidationResult } from "Commons/Mutators/Types";
 
