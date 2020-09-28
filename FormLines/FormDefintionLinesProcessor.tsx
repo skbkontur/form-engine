@@ -22,6 +22,7 @@ export interface FormLineInfo extends FormRowProps {
     hiddenByDefault: boolean;
     alwaysVisible: boolean;
     showIfUsed?: boolean;
+    hiddenIfEmpty?: boolean;
 }
 
 export interface StructuredFormLineInfo extends FormLineInfo {
@@ -149,6 +150,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 caption: element.props.lineSelectorCaption || element.props.caption,
                 alwaysVisible: Boolean(element.props.alwaysVisible),
                 showIfUsed: Boolean(element.props.showIfUsed),
+                hiddenIfEmpty: Boolean(element.props.hiddenIfEmpty),
                 id: id,
                 fields: [...this.currentLine],
             };
