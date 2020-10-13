@@ -24,8 +24,8 @@ export interface FormContextActions<T, TContext extends {}> {
         formState: FormState<T>,
         path: Path<T, TChild>
     ): undefined | AutoEvaluationControlState<TChild>;
-    isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean;
-    setAutoEvaliationStateToStore(state: AutoEvaluationsState<T>): FormAction;
+    isAllAutoEvaluationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean;
+    setAutoEvaluationStateToStore(state: AutoEvaluationsState<T>): FormAction;
 }
 
 export const FormActionsContext = React.createContext<FormContextActions<any, any>>(null as any);

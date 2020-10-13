@@ -111,7 +111,7 @@ export function runAllAutoEvaluations(pathFilter?: PathFilter): FormAction {
     };
 }
 
-export function setAutoEvaliationStateToStore<T>(state: AutoEvaluationsState<T>): FormAction {
+export function setAutoEvaluationStateToStore<T>(state: AutoEvaluationsState<T>): FormAction {
     return {
         type: "SetAutoEvaliationStateToStore",
         state: state,

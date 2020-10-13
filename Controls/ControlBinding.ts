@@ -47,7 +47,7 @@ export function getAutoEvaluationStateFromNormalizedPath<T, TChild>(
     };
 }
 
-export function isAllAutoEvaliationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean {
+export function isAllAutoEvaluationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean {
     const autoEvaluationState = formState.autoEvaluationState;
     if (autoEvaluationState == undefined) {
         return false;
