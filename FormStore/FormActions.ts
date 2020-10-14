@@ -45,8 +45,8 @@ interface RunAllAutoEvaluations {
     pathFilter?: PathFilter;
 }
 
-interface SetAutoEvaliationStateToStore<T> {
-    type: "SetAutoEvaliationStateToStore";
+interface SetAutoEvaluationStateToStore<T> {
+    type: "SetAutoEvaluationStateToStore";
     state: AutoEvaluationsState<T>;
 }
 
@@ -59,7 +59,7 @@ export type FormAction =
     | RunAllAutoEvaluations
     | ChangeAutoEvaluationTypeAction
     | FormReplaceContextAction
-    | SetAutoEvaliationStateToStore<any>;
+    | SetAutoEvaluationStateToStore<any>;
 
 export function userUpdateValue(path: NormalizedPath, value: any): FormAction {
     return {
@@ -113,7 +113,7 @@ export function runAllAutoEvaluations(pathFilter?: PathFilter): FormAction {
 
 export function setAutoEvaluationStateToStore<T>(state: AutoEvaluationsState<T>): FormAction {
     return {
-        type: "SetAutoEvaliationStateToStore",
+        type: "SetAutoEvaluationStateToStore",
         state: state,
     };
 }

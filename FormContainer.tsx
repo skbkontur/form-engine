@@ -175,3 +175,6 @@ class RootFormContextActions<T, TContext> implements FormContextActions<T, TCont
         }
     };
 }
+
+// TODO: подумать как организовать экспорты движка форм
+export { NestedFormContainer } from "./NestedFormContainer";

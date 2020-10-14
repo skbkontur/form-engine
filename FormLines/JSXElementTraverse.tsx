@@ -5,16 +5,16 @@ export interface JSXElementVisitor {
     visitElementClose(element: JSX.Element): JSX.Element;
 }
 
-export function traverseElemenents(root: JSX.Element, visitor: JSXElementVisitor): JSX.Element {
+export function traverseElements(root: JSX.Element, visitor: JSXElementVisitor): JSX.Element {
     let result = root;
     result = visitor.visitElementOpen(result);
-    if (result.props && result.props.children != null) {
+    if (result?.props.children != null) {
         result = React.cloneElement(result, {
             children: React.Children.map(result.props.children, x => {
                 if (typeof x === "string" || typeof x === "number") {
                     return x;
                 }
-                return traverseElemenents(x, visitor);
+                return traverseElements(x, visitor);
             }),
         });
     }

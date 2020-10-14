@@ -5,7 +5,7 @@ import { FormRowProps } from "Commons/Form/Form";
 
 import { getNormalizedPath, NormalizedPath } from "../Path";
 
-import { JSXElementVisitor, traverseElemenents } from "./JSXElementTraverse";
+import { JSXElementVisitor, traverseElements } from "./JSXElementTraverse";
 
 export interface ProcessedForm {
     formDefinition: JSX.Element;
@@ -194,10 +194,10 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
     }
 }
 
-export class FormDefintionLinesProcessor {
+export class FormDefinitionLinesProcessor {
     public static processForm(formSource: JSX.Element): ProcessedForm {
         const linesInfoVisitor = new ExtractFormLinesInfoVisitor();
-        const result = traverseElemenents(formSource, linesInfoVisitor);
+        const result = traverseElements(formSource, linesInfoVisitor);
         return {
             formDefinition: result,
             lines: linesInfoVisitor.lines,

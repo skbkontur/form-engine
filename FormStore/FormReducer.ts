@@ -144,7 +144,7 @@ export function formReducer<TData, TContext>(
             context: action.value,
         };
     }
-    if (action.type === "SetAutoEvaliationStateToStore") {
+    if (action.type === "SetAutoEvaluationStateToStore") {
         return {
             ...state,
             autoEvaluationState: action.state,
