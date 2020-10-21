@@ -10,7 +10,7 @@ interface ConnectTypingProps<TData, TMappedProps, TContext> {
     mapState: (state: FormState<TData>, actions: FormContextActions<TData, TContext>) => TMappedProps;
     children: (
         props: TMappedProps,
-        dispatch: FormDispatch<TData>,
+        dispatch: FormDispatch,
         actions: FormContextActions<TData, TContext>
     ) => JSX.Element | null;
 }
@@ -30,7 +30,7 @@ interface ConnectControlProps<TData, TMappedProps, TContext> {
     mapState: (state: FormState<TData>, actions: FormContextActions<TData, TContext>) => TMappedProps;
     children: (
         props: TMappedProps,
-        dispatch: FormDispatch<TData>,
+        dispatch: FormDispatch,
         actions: FormContextActions<TData, TContext>
     ) => JSX.Element | null;
 }

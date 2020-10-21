@@ -30,20 +30,13 @@ interface NestedFormContainerProps<TData, TChild, TDataContext, TChildContext> {
     children: JSX.Element;
 }
 
-export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TDataContext> extends React.Component<
+export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TDataContext> extends React.PureComponent<
     NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>
 > {
     public deepActions: FormContextActions<TData, TDataContext>;
 
-    public readonly handleCustomAction = (action: any) => {
-        const { onCustomAction } = this.props;
-        if (onCustomAction != undefined) {
-            onCustomAction(action);
-        }
-    };
-
-    public render(): JSX.Element {
-        const props = this.props;
+    public constructor(props: NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>) {
+        super(props);
         const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
         const contextPathPrefix =
             props.contextPath == null || Array.isArray(props.contextPath)
@@ -54,10 +47,20 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
             contextPathPrefix,
             this.handleCustomAction
         );
+    }
+
+    public render(): JSX.Element {
         return (
             <FormActionsContext.Provider value={this.deepActions}>{this.props.children}</FormActionsContext.Provider>
         );
     }
+
+    public readonly handleCustomAction = (action: any) => {
+        const { onCustomAction } = this.props;
+        if (onCustomAction != undefined) {
+            onCustomAction(action);
+        }
+    };
 }
 
 class NestedFormContextActions<T, TContext> implements FormContextActions<T, TContext> {

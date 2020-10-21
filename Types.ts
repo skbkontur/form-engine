@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { ValidationResult } from "Commons/Mutators/Types";
 
-import { FormState } from "./FormStore/FormState";
+import { FormAction } from "./FormStore/FormActions";
 
 // tslint:disable:prettier
 export type DeepNonNullableWithLeafs<T> =
@@ -22,6 +22,6 @@ export type GenericModelValidator<TData> = (value: TData) => ValidationResult;
 
 export type ValuePicker<T, TContext, TR> = (value: T, context: TContext) => TR;
 
-export type FormDispatch<TData> = Dispatch<FormState<TData>>;
+export type FormDispatch = Dispatch<FormAction>;
 
 export type PathFilter = (path: string) => boolean;

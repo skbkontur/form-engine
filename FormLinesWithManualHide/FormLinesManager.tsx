@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import { difference } from "lodash";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
 import { DocumentType } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
@@ -30,7 +30,7 @@ interface FormLinesManagerState {
     requiredByValidator: FormLineId[];
 }
 
-export class FormLinesManager<TData> extends React.Component<FormLinesManagerProps<TData>, FormLinesManagerState> {
+export class FormLinesManager<TData> extends React.PureComponent<FormLinesManagerProps<TData>, FormLinesManagerState> {
     public state: FormLinesManagerState;
 
     public constructor(props: FormLinesManagerProps<TData>) {
@@ -43,7 +43,7 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
             ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
         this.state = {
-            hiddenLines: _.difference(
+            hiddenLines: difference(
                 initialHiddenLineIds,
                 getFilledLineIds(props.value, props.lines),
                 requiredByValidator
@@ -82,34 +82,25 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
         }
     };
 
-    private recalculateRequiredAndHiddenFields(props: FormLinesManagerProps<TData>) {
-        const requiredByValidator = props.validator
-            ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
+    private recalculateRequiredFields(
+        { value, validator, requiredByDefaultPaths, lines }: FormLinesManagerProps<TData>,
+        withHiddenFields?: boolean
+    ) {
+        const nextRequiredByValidator = validator
+            ? getRequiredLines(value, requiredByDefaultPaths, lines, validator)
             : [];
-        const nextHiddenLines = props.lines.filter(x => x.hiddenByDefault).map(x => x.id);
-        if (
-            !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
-            !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)
-        ) {
-            this.setState({
-                hiddenLines: nextHiddenLines,
-                requiredByValidator: requiredByValidator,
-            });
-        }
-    }
 
-    private recalculateRequiredFields(props: FormLinesManagerProps<TData>) {
-        const requiredByValidator = props.validator
-            ? getRequiredLines(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
-            : [];
-        const nextHiddenLines = _.difference(this.state.hiddenLines, requiredByValidator);
+        const nextHiddenLines = withHiddenFields
+            ? lines.filter(x => x.hiddenByDefault).map(x => x.id)
+            : difference(this.state.hiddenLines, nextRequiredByValidator);
+
         if (
             !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
-            !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)
+            !isArrayContainsSameItems(this.state.requiredByValidator, nextRequiredByValidator)
         ) {
             this.setState({
                 hiddenLines: nextHiddenLines,
-                requiredByValidator: requiredByValidator,
+                requiredByValidator: nextRequiredByValidator,
             });
         }
     }
@@ -121,7 +112,7 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
 
     @debounce(800, { leading: false })
     private recalculateRequiredAndHiddenFieldsDebounced(props: FormLinesManagerProps<TData>) {
-        this.recalculateRequiredAndHiddenFields(props);
+        this.recalculateRequiredFields(props, true);
     }
 
     private readonly handleChangeHiddenFields = (hiddenLines: FormLineId[]) => {
@@ -135,5 +126,5 @@ export class FormLinesManager<TData> extends React.Component<FormLinesManagerPro
 }
 
 function isArrayContainsSameItems<T>(left: T[], right: T[]) {
-    return _.difference(left, right).length === 0 && _.difference(right, left).length === 0;
+    return difference(left, right).length === 0 && difference(right, left).length === 0;
 }

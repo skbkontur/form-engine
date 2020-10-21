@@ -55,6 +55,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         super(props);
         const storeEnhancer = devToolsEnhancer({ name: props.storeName });
         this.store = createStore(
+            // @ts-ignore
             formReducer,
             buildInitialState(
                 props.value,
@@ -100,10 +101,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         if (nextProps.validator !== state.validator) {
             this.store.dispatch(replaceValidator(nextProps.validator));
         }
-        if (
-            nextProps.context != null &&
-            Object.keys(nextProps.context).some(key => nextProps.context[key] !== state.context[key])
-        ) {
+        if (nextProps.context != null && !isEqual(state.context, nextProps.context)) {
             this.store.dispatch(replaceContext(nextProps.context));
         }
     }

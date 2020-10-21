@@ -30,7 +30,7 @@ interface ArrayChildFormLinesManagerState {
     requiredByValidator: FormLineId[];
 }
 
-export class ArrayChildFormLinesManager<TData> extends React.Component<
+export class ArrayChildFormLinesManager<TData> extends React.PureComponent<
     ArrayChildFormLinesManagerProps<TData>,
     ArrayChildFormLinesManagerState
 > {
