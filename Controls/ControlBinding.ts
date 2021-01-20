@@ -1,5 +1,5 @@
+import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import * as _ from "lodash";
-import { ValidationInfo } from "ui/validation";
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
 import { ValidationResult, ValidationResultItem } from "Commons/Mutators/Types";

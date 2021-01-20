@@ -1,5 +1,5 @@
+import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import React from "react";
-import { ValidationInfo } from "ui/validation";
 import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
 import { ValidationResult } from "Commons/Mutators/Types";
 
