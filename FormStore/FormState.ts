@@ -1,7 +1,6 @@
-import { AutoEvaluator } from "Commons/AutoEvaluations/AutoEvaluators";
-import { ValidationResult } from "Commons/Mutators/Types";
+import { GenericModelValidator, ValidationResult } from "../Types";
 
-import { GenericModelValidator } from "../Types";
+import { AutoEvaluator } from "../AutoEvaluators";
 
 import { AutoEvaluationsState } from "./FormAutoEvaluations";
 

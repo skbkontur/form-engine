@@ -4,8 +4,8 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
-import { AutoEvaluator } from "Commons/AutoEvaluations/AutoEvaluators";
 
+import { AutoEvaluator } from "./AutoEvaluators";
 import {
     getAutoEvaluationState,
     getPartialValidationResult,

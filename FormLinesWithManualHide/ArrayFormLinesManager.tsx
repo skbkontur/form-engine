@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import difference from "lodash/difference";
 import * as React from "react";
 import { debounce } from "typescript-debounce-decorator";
 import { DocumentType } from "Domain/EDI/DocumentCirculationMeta/DocumentType";
@@ -46,7 +46,7 @@ export class ArrayChildFormLinesManager<TData> extends React.PureComponent<
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
         this.state = {
-            hiddenLines: _.difference(
+            hiddenLines: difference(
                 initialHiddenLineIds,
                 getFilledLineIdsForArray(props.value, props.lines),
                 requiredByValidator
@@ -95,7 +95,7 @@ export class ArrayChildFormLinesManager<TData> extends React.PureComponent<
         const requiredByValidator = props.validator
             ? getRequiredLinesForList(props.value, props.requiredByDefaultPaths, props.lines, props.validator)
             : [];
-        const nextHiddenLines = _.difference(this.state.hiddenLines, requiredByValidator);
+        const nextHiddenLines = difference(this.state.hiddenLines, requiredByValidator);
         if (
             !isArrayContainsSameItems(this.state.hiddenLines, nextHiddenLines) ||
             !isArrayContainsSameItems(this.state.requiredByValidator, requiredByValidator)
@@ -114,5 +114,5 @@ export class ArrayChildFormLinesManager<TData> extends React.PureComponent<
 }
 
 function isArrayContainsSameItems<T>(left: T[], right: T[]) {
-    return _.difference(left, right).length === 0 && _.difference(right, left).length === 0;
+    return difference(left, right).length === 0 && difference(right, left).length === 0;
 }

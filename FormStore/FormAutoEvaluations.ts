@@ -1,9 +1,9 @@
-import _ from "lodash";
-import { AutoEvaluator, AutoValueType, NodePath, Return } from "Commons/AutoEvaluations/AutoEvaluators";
-import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
+import cloneDeep from "lodash/cloneDeep";
 
+import { AutoEvaluator, AutoValueType, NodePath, Return } from "../AutoEvaluators";
 import { NormalizedPath } from "../Path";
 import { PathFilter } from "../Types";
+import { getKeyByNodePath } from "../Utils";
 
 import { getIn, setIn } from "./ImmutableOperators";
 
@@ -48,7 +48,7 @@ export function initAutoEvaluationState<T>(
     customAutoEvaluationHandler?: CustomAutoEvaluationHandler
 ): AutoEvaluationsState<T> & { value: T } {
     const nodeStates: NodeStates = {};
-    let newValue = _.cloneDeep(value);
+    let newValue = cloneDeep(value);
     autoEvaluator(null, newValue, (autoEvaluatedValue: NodeValue, path: NodePath) => {
         const currentValue = getIn(value, path);
         const pathKey = getKeyByNodePath(path);

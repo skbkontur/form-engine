@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { ValidationResult } from "Commons/Mutators/Types";
 
 import { FormAction } from "./FormStore/FormActions";
 
@@ -25,3 +24,12 @@ export type ValuePicker<T, TContext, TR> = (value: T, context: TContext) => TR;
 export type FormDispatch = Dispatch<FormAction>;
 
 export type PathFilter = (path: string) => boolean;
+
+export type NodePath = string[];
+
+export interface ValidationResultItem {
+    path: NodePath;
+    text: string;
+    type?: "submit" | "lostfocus" | "immediate";
+}
+export type ValidationResult = ValidationResultItem[];

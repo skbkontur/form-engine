@@ -1,6 +1,7 @@
-import { AutoEvaluator } from "Commons/AutoEvaluations/AutoEvaluators";
-import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
-import { ValidationResult } from "Commons/Mutators/Types";
+import { ValidationResult } from "../Types";
+
+import { AutoEvaluator } from "../AutoEvaluators";
+import { getKeyByNodePath } from "../Utils";
 
 import { FormAction } from "./FormActions";
 import {

@@ -1,13 +1,13 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
-import * as _ from "lodash";
-import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
-import { getKeyByNodePath } from "Commons/AutoEvaluations/StateManagement/StateManager";
-import { ValidationResult, ValidationResultItem } from "Commons/Mutators/Types";
+import findLast from "lodash/findLast";
+import isEqual from "lodash/isEqual";
 
+import { AutoValueType } from "../AutoEvaluators";
 import { FormState } from "../FormStore/FormState";
 import { getIn, setIn } from "../FormStore/ImmutableOperators";
 import { getNormalizedPath, NormalizedPath, Path, startsWith } from "../Path";
-import { GenericModelValidator, PathFilter } from "../Types";
+import { GenericModelValidator, PathFilter, ValidationResult, ValidationResultItem } from "../Types";
+import { getKeyByNodePath } from "../Utils";
 
 export function getValue<T, TChild>(target: T, path: Path<T, TChild>): TChild {
     return getIn(target, getNormalizedPath(path));
@@ -120,8 +120,8 @@ function getLastValidationInfoByPath(
     path: NormalizedPath
 ): ValidationResultItem | undefined {
     const stringPath = path.map(x => x.toString());
-    const result = _.findLast(validationResult, x =>
-        _.isEqual(
+    const result = findLast(validationResult, x =>
+        isEqual(
             x.path.map(x => x.toString()),
             stringPath
         )

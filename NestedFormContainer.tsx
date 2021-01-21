@@ -1,8 +1,7 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import React from "react";
-import { AutoValueType } from "Commons/AutoEvaluations/AutoEvaluators";
-import { ValidationResult } from "Commons/Mutators/Types";
 
+import { AutoValueType } from "./AutoEvaluators";
 import {
     AutoEvaluationControlState,
     getAutoEvaluationStateFromNormalizedPath,
@@ -21,7 +20,7 @@ import {
 import { FormState } from "./FormStore/FormState";
 import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
-import { PathFilter } from "./Types";
+import { PathFilter, ValidationResult } from "./Types";
 
 interface NestedFormContainerProps<TData, TChild, TDataContext, TChildContext> {
     path: Path<TData, TChild> | NormalizedPath;
