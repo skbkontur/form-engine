@@ -1,7 +1,6 @@
 import * as React from "react";
 import { concatTids } from "ui/testing";
 import { capitalizeFirstLetter } from "utils";
-import { FormRowProps } from "Commons/Form/Form";
 
 import { getNormalizedPath, NormalizedPath } from "../Path";
 
@@ -15,7 +14,7 @@ export interface ProcessedForm {
 
 export type FormLineId = string;
 
-export interface FormLineInfo extends FormRowProps {
+export interface FormLineInfo {
     id: FormLineId;
     caption: string;
     fields: NormalizedPath[];
