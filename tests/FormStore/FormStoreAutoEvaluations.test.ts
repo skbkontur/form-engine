@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import { Store } from "redux";
 
-import { AutoEvaluator, AutoValueType } from "../../AutoEvaluators";
-import { NodeState } from "../../FormStore/FormAutoEvaluations";
-import { FormState } from "../../FormStore/FormState";
+import { AutoEvaluator, AutoValueType } from "../../src/AutoEvaluators";
+import { NodeState } from "../../src/FormStore/FormAutoEvaluations";
+import { FormState } from "../../src/FormStore/FormState";
 import { compileAutoEvaluator } from "../FormStore/TestUtils/TestAutoEvaluationCompiler";
 
 import { createFormStore, TestData1 } from "./FormStoreAutoEvaluationsBases";
@@ -29,7 +29,7 @@ describe("FormStoreAutoEvaluationsTest", () => {
 
     let c_eq_a_plus_b: AutoEvaluator<TestData1>;
 
-    before(() => {
+    beforeAll(() => {
         c_eq_a_plus_b = compileAutoEvaluator<TestData1>(x => (x.c = x.a + x.b));
     });
 

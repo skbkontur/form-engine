@@ -1,10 +1,10 @@
 import { Store } from "redux";
 
-import { AutoValueType } from "../../../AutoEvaluators";
-import { AutoEvaluationControlState, getAutoEvaluationState, getValue } from "../../../Controls/ControlBinding";
-import { changeAutoEvaluationType, runAutoEvaluations, userUpdateValue } from "../../../FormStore/FormActions";
-import { FormState } from "../../../FormStore/FormState";
-import { getNormalizedPath, Path } from "../../../Path";
+import { AutoValueType } from "../../../src/AutoEvaluators";
+import { AutoEvaluationControlState, getAutoEvaluationState, getValue } from "../../../src/Controls/ControlBinding";
+import { changeAutoEvaluationType, runAutoEvaluations, userUpdateValue } from "../../../src/FormStore/FormActions";
+import { FormState } from "../../../src/FormStore/FormState";
+import { getNormalizedPath, Path } from "../../../src/Path";
 
 export function dispatchUserUpdate<T, TTarget>(store: Store<FormState<T>>, path: Path<T, TTarget>, value: TTarget) {
     store.dispatch(userUpdateValue(getNormalizedPath(path), value));

@@ -1,14 +1,13 @@
 import { ValidationInfo } from "@skbkontur/react-ui-validations";
 import React from "react";
 
-import { PathFilter, ValidationResult } from "./Types";
-
 import { AutoValueType } from "./AutoEvaluators";
 import { AutoEvaluationControlState } from "./Controls/ControlBinding";
 import { FormAction } from "./FormStore/FormActions";
 import { AutoEvaluationsState } from "./FormStore/FormAutoEvaluations";
 import { FormState } from "./FormStore/FormState";
 import { NormalizedPath, Path } from "./Path";
+import { PathFilter, ValidationResult } from "./Types";
 
 export interface FormContextActions<T, TContext extends {}> {
     getValidationInfo<T>(state: FormState<T>, path: NormalizedPath): undefined | ValidationInfo;

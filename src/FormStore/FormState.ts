@@ -1,6 +1,5 @@
-import { GenericModelValidator, ValidationResult } from "../Types";
-
 import { AutoEvaluator } from "../AutoEvaluators";
+import { GenericModelValidator, ValidationResult } from "../Types";
 
 import { AutoEvaluationsState } from "./FormAutoEvaluations";
 

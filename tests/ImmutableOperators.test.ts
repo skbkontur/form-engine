@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { setIn } from "../FormStore/ImmutableOperators";
+import { setIn } from "../src/FormStore/ImmutableOperators";
 
 describe("ImmutableOperatorsTest", () => {
     it("simple set", () => {

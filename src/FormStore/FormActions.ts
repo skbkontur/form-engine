@@ -1,8 +1,6 @@
-import { PathFilter } from "../Types";
-
 import { AutoValueType } from "../AutoEvaluators";
-
 import { NormalizedPath } from "../Path";
+import { PathFilter } from "../Types";
 
 import { AutoEvaluationsState } from "./FormAutoEvaluations";
 

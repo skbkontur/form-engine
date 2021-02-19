@@ -1,4 +1,4 @@
-import * as React from "react";
+import { cloneElement, Children } from "react";
 
 export interface JSXElementVisitor {
     visitElementOpen(element: JSX.Element): JSX.Element;
@@ -9,8 +9,8 @@ export function traverseElements(root: JSX.Element, visitor: JSXElementVisitor):
     let result = root;
     result = visitor.visitElementOpen(result);
     if (result?.props.children != null) {
-        result = React.cloneElement(result, {
-            children: React.Children.map(result.props.children, x => {
+        result = cloneElement(result, {
+            children: Children.map(result.props.children, x => {
                 if (typeof x === "string" || typeof x === "number") {
                     return x;
                 }

@@ -1,4 +1,15 @@
-import { getPath } from "lens";
+function getPath(propertyPicker: any) {
+    console.log(propertyPicker);
+    
+    const fieldsString = /return [^\{\}\(\)]*?(\.([^\{\}\(\)]*?))?\s*[;\}]/.exec(propertyPicker.toString());
+    if (fieldsString == undefined) {
+        throw new Error(`Cannot extract path from function: ${propertyPicker.toString()}`);
+    }
+    if (fieldsString != undefined && fieldsString[2] == undefined) {
+        return [];
+    }
+    return fieldsString[2].replace(/\[\"?/g, '.').replace(/\"?]/, '').split(".");
+}
 
 export type Path<T, TR> = (value: T) => TR;
 

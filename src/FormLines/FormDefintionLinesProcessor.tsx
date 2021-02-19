@@ -1,10 +1,10 @@
-import * as React from "react";
-import { concatTids } from "ui/testing";
-import { capitalizeFirstLetter } from "utils";
+import { cloneElement } from "react";
 
 import { getNormalizedPath, NormalizedPath } from "../Path";
 
 import { JSXElementVisitor, traverseElements } from "./JSXElementTraverse";
+import { capitalizeFirstLetter } from "./capitalizeFirstLetter";
+import { concatTids } from "./concatTids";
 
 export interface ProcessedForm {
     formDefinition: JSX.Element;
@@ -102,10 +102,10 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
                 this.currentGroup = undefined;
             }
             const currentGroupdChildLineIds = this.groupStack.pop();
-            return React.cloneElement(element, { childInternalIds: currentGroupdChildLineIds });
+            return cloneElement(element, { childInternalIds: currentGroupdChildLineIds });
         }
         if (element.type["FormSwitchBindControl"]) {
-            this.currentLine = this.currentLine;
+            //this.currentLine = this.currentLine;
             if (element.props.path == undefined) {
                 return element;
             }
@@ -124,7 +124,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             return element;
         }
         if (element.type["FormBindControl"]) {
-            this.currentLine = this.currentLine;
+            //this.currentLine = this.currentLine;
             if (element.props.path == undefined) {
                 return element;
             }
@@ -132,7 +132,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             if (!isPathExistInLine(this.currentLine, normalizedPath)) {
                 this.currentLine.push(normalizedPath);
             }
-            return React.cloneElement(element, {
+            return cloneElement(element, {
                 "data-tid": concatTids(
                     toUpperCamelCasePathWithSeparator(normalizedPath, "."),
                     toUpperCamelCasePathWithSeparator(normalizedPath, "-")
@@ -140,7 +140,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             });
         }
         if (element.type["FormLine"]) {
-            this.lines = this.lines;
+            //this.lines = this.lines;
             const id = this.currentLine.map(x => x.join("-")).join("_");
             this.groupStack.forEach(x => x.push(id));
             const lineInfo = {
@@ -167,7 +167,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             const dataTid2 =
                 lineInfo.fields.length > 1 ? lineInfo.fields.map(toUpperCamelCasePath).join("_") : undefined;
             const dataTid3 = element.props["data-tid"] != null ? element.props["data-tid"] : undefined;
-            return React.cloneElement(element, {
+            return cloneElement(element, {
                 "data-tid": concatTids(dataTid1, dataTid2, dataTid3),
                 internalId: id,
             });
@@ -175,7 +175,7 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
         if (element.type["FormArrayControl"]) {
             this.arrayLine = undefined;
             const normalizedPath = getNormalizedPath(element.props.path);
-            return React.cloneElement(element, {
+            return cloneElement(element, {
                 "data-tid": concatTids(
                     toUpperCamelCasePathWithSeparator(normalizedPath, "."),
                     toUpperCamelCasePathWithSeparator(normalizedPath, "_")

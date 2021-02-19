@@ -1,6 +1,7 @@
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
 import traverse from "@babel/traverse";
+
 import { TestAutoEvaluationBuilder } from "./TestAutoEvaluationBuilder";
 
 /**
@@ -13,7 +14,7 @@ export function compileAutoEvaluator(expression) {
     let inputArgName = "x";
 
     traverse(ast, {
-        enter: function(path) {
+        enter: function (path) {
             if (path.node.type === "VariableDeclarator" && path.node.id.name === "__expr__") {
                 inputArgName = path.node.init.params[0].name;
             }
