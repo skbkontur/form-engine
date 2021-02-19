@@ -1,0 +1,15 @@
+{
+  "name": "form-engine",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:skbkontur/form-engine.git",
+  "author": "khasanov <khasanov@skbkontur.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skbkontur/form-engine/issues"
+  },
+  "homepage": "https://github.com/skbkontur/form-engine",
+  "keywords": [
+    "FormEngine" 
+  ]
+}
