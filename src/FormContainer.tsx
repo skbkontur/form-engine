@@ -1,6 +1,6 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import { isEqual } from "lodash";
-import * as React from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
@@ -48,7 +48,7 @@ interface FormContainerProps<TData, TContext> {
 export class FormContainer<TData, TContext = any> extends React.Component<FormContainerProps<TData, TContext>> {
     public store: Store<FormState<TData, TContext>>;
     public unsubscribeFromStore?: Unsubscribe;
-    public validationContainer: ValidationContainer | null;
+    public validationContainer: ValidationContainer | null = null;
     public rootActions: FormContextActions<TData, TContext>;
 
     public constructor(props: FormContainerProps<TData, TContext>) {
@@ -57,6 +57,7 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         this.store = createStore(
             // @ts-ignore
             formReducer,
+            // @ts-ignore
             buildInitialState(
                 props.value,
                 props.context,

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { AutoEvaluator } from "../../AutoEvaluators";
+import { AutoEvaluator } from "../../src/AutoEvaluators";
 
 import { createFormStore, TestData1 } from "./FormStoreAutoEvaluationsBases";
 import { getAutoEvaluationStateFromStore, getValueFromStore } from "./TestUtils/StoreTestHelpers";
@@ -9,7 +9,7 @@ import { compileAutoEvaluator } from "./TestUtils/TestAutoEvaluationCompiler";
 describe("FormStoreAutoEvaluationsInitializationTest", () => {
     let c_eq_a_plus_b: AutoEvaluator<TestData1>;
 
-    before(() => {
+    beforeAll(() => {
         c_eq_a_plus_b = compileAutoEvaluator<TestData1>(x => (x.c = x.a + x.b));
     });
 

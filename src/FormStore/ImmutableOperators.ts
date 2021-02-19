@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import get from "lodash/get";
 
 import { NormalizedPath } from "../Path";
 
@@ -16,7 +16,7 @@ export function getIn<T, TContext>(target: T, path: NormalizedPath, context?: TC
     if (path.length === 0) {
         return target;
     }
-    return _.get(target, path);
+    return get(target, path);
 }
 
 export function setIn<T>(target: T, path: NormalizedPath, value: any): T {

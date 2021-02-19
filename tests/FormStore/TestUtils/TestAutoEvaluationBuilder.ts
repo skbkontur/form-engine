@@ -1,7 +1,6 @@
-import { AutoEvaluator, TraverseHandler } from "../../../AutoEvaluators";
-
-import { getIn, setIn } from "../../../FormStore/ImmutableOperators";
-import { getNormalizedPath, NormalizedPath, Path } from "../../../Path";
+import { AutoEvaluator, TraverseHandler } from "../../../src/AutoEvaluators";
+import { getIn, setIn } from "../../../src/FormStore/ImmutableOperators";
+import { getNormalizedPath, NormalizedPath, Path } from "../../../src/Path";
 
 interface IAutoEvaluationRule<T> {
     execute(prev: null | undefined | T, next: T, handler?: TraverseHandler): T;
@@ -9,7 +8,7 @@ interface IAutoEvaluationRule<T> {
 
 class AutoEvaluationSetEvaluation<T, TTarget> {
     public target: Path<T, TTarget>;
-    public evaluator: (source: T) => TTarget;
+    public evaluator: ((source: T) => TTarget) | null = null;
     public deps: NormalizedPath[] = [];
 
     public constructor(target: Path<T, TTarget>) {
@@ -29,7 +28,10 @@ class AutoEvaluationSetEvaluation<T, TTarget> {
     public execute(prev: null | T, next: T, handler: TraverseHandler): T {
         const targetNormalizedPath = getNormalizedPath(this.target);
         if (prev == null || this.deps.some(x => getIn(prev, x) !== getIn(next, x)) || this.deps.length === 0) {
-            let newValue = this.evaluator(next);
+            let newValue = null;
+            if (this.evaluator) {
+                newValue = this.evaluator(next);
+            }
             const customResult = handler != null ? handler(newValue, targetNormalizedPath) : null;
             if (customResult != null && customResult.type === "Value") {
                 newValue = customResult.value;

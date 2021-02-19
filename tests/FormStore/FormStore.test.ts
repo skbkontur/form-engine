@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import { createStore, Store } from "redux";
 
-import { getValue } from "../../Controls/ControlBinding";
-import { FormAction, userUpdateValue } from "../../FormStore/FormActions";
-import { buildInitialState, formReducer } from "../../FormStore/FormReducer";
-import { FormState } from "../../FormStore/FormState";
-import { getNormalizedPath } from "../../Path";
+import { getValue } from "../../src/Controls/ControlBinding";
+import { FormAction, userUpdateValue } from "../../src/FormStore/FormActions";
+import { buildInitialState, formReducer } from "../../src/FormStore/FormReducer";
+import { FormState } from "../../src/FormStore/FormState";
+import { getNormalizedPath } from "../../src/Path";
 
 interface TestData1 {
     a: null | string;

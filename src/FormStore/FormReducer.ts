@@ -1,6 +1,5 @@
-import { ValidationResult } from "../Types";
-
 import { AutoEvaluator } from "../AutoEvaluators";
+import { ValidationResult } from "../Types";
 import { getKeyByNodePath } from "../Utils";
 
 import { FormAction } from "./FormActions";

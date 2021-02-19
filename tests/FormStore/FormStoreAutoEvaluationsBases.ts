@@ -1,9 +1,9 @@
 import { createStore, Store } from "redux";
 
-import { AutoEvaluator } from "../../AutoEvaluators";
-import { FormAction } from "../../FormStore/FormActions";
-import { buildInitialState, formReducer } from "../../FormStore/FormReducer";
-import { FormState } from "../../FormStore/FormState";
+import { AutoEvaluator } from "../../src/AutoEvaluators";
+import { FormAction } from "../../src/FormStore/FormActions";
+import { buildInitialState, formReducer } from "../../src/FormStore/FormReducer";
+import { FormState } from "../../src/FormStore/FormState";
 
 export interface TestData1 {
     a: number;
