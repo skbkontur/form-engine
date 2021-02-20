@@ -1,6 +1,4 @@
 function getPath(propertyPicker: any) {
-    console.log(propertyPicker);
-    
     const fieldsString = /return [^\{\}\(\)]*?(\.([^\{\}\(\)]*?))?\s*[;\}]/.exec(propertyPicker.toString());
     if (fieldsString == undefined) {
         throw new Error(`Cannot extract path from function: ${propertyPicker.toString()}`);

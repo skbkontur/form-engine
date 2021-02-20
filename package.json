@@ -29,9 +29,6 @@
     "redux": "^4.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.17",
-    "@babel/preset-env": "^7.12.17",
-    "@babel/preset-typescript": "^7.12.17",
     "@types/chai": "^4.2.15",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
@@ -53,13 +50,14 @@
     "jest-teamcity-reporter": "^0.9.0",
     "prettier": "^2.2.1",
     "redux-devtools-extension": "^2.13.8",
+    "ts-jest": "^26.5.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.5"
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
-      "^.+\\.(j|t)sx?$": "babel-jest"
+      "^.+\\.(j|t)sx?$": "ts-jest"
     },
     "testRegex": "./tests(\\\\|/).*(\\.|-)test\\.(j|t)sx?$"
   }
