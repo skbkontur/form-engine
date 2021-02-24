@@ -13,8 +13,8 @@
     "FormEngine"
   ],
   "scripts": {
-    "lint:tsc": "tsc --noEmit",
-    "lint:eslint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
+    "tsc": "tsc --noEmit",
+    "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "test": "jest"
   },
   "dependencies": {

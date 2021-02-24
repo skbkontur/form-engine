@@ -17,6 +17,7 @@ interface ConnectTypingProps<TData, TMappedProps, TContext> {
 
 class ConnectTyping<TData, TMapped, TContext> extends React.Component<ConnectTypingProps<TData, TMapped, TContext>> {}
 
+// eslint-disable-next-line
 const ConnectComp = React.memo(({ actions, children, dispatch, mapState, ...props }: any) =>
     children(props, dispatch, actions)
 );
