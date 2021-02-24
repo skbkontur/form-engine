@@ -158,7 +158,7 @@ export function changeAutoEvaluatedValue<T>(
     nodeKey: string,
     nextValue: NodeValue
 ): AutoEvaluationsState<T> {
-    if (!autoEvaluationState.nodeStates.hasOwnProperty(nodeKey)) {
+    if (!Object.prototype.hasOwnProperty.call(autoEvaluationState.nodeStates, nodeKey)) {
         return autoEvaluationState;
     }
     return updateStateByKey(autoEvaluationState, nodeKey, state => {
