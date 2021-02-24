@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 
+import { NodePath } from "./AutoEvaluators";
 import { FormAction } from "./FormStore/FormActions";
 
 // tslint:disable:prettier
@@ -30,7 +31,7 @@ export type FormDispatch = Dispatch<FormAction>;
 
 export type PathFilter = (path: string) => boolean;
 
-export type NodePath = string[];
+// export type NodePath = string[];
 
 export interface ValidationResultItem {
     path: NodePath;
