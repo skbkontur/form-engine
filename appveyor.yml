@@ -38,7 +38,7 @@ before_build:
           Write-Error "Version in tag ($version) does not match version in version.json"
         }
       }
-  - cmd: yarn install --frozen-lockfile
+  - cmd: npm install
 
 build_script:
   - cmd: yarn build
