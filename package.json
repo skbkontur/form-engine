@@ -1,5 +1,5 @@
 {
-  "name": "form-engine",
+  "name": "@skbkontur/form-engine",
   "version": "0.1.0",
   "main": "index.js",
   "repository": "git@github.com:skbkontur/form-engine.git",
@@ -13,6 +13,12 @@
     "FormEngine"
   ],
   "scripts": {
+    "build": "build:clean build:tsc \"build:copy:*\" build:patch build:pack",
+    "build:clean": "rimraf dist",
+    "build:tsc": "tsc --project tsconfig.prod.json",
+    "build:patch": "node ./patch-version",
+    "build:copy:meta": "copyfiles --flat package.json \"../*.md\" ../LICENSE dist",
+    "build:pack": "cd dist && npm pack",
     "tsc": "tsc --noEmit",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "test": "jest"
