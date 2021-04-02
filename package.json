@@ -13,7 +13,7 @@
     "FormEngine"
   ],
   "scripts": {
-    "build": "build:clean build:tsc \"build:copy:*\" build:patch build:pack",
+    "build": "npm run build:clean & npm run build:tsc & npm run build:copy:meta & npm run build:patch & npm run build:pack",
     "build:clean": "rimraf dist",
     "build:tsc": "tsc --project tsconfig.prod.json",
     "build:patch": "node ./patch-version",
@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "^4.15.1",
     "babel-jest": "^26.6.3",
     "chai": "^4.3.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
