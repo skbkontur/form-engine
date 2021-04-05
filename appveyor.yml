@@ -57,7 +57,7 @@ after_test:
         foreach ($file in $fileNames)
         {
           Write-Host "Will publish npm package $($file.Name)" -ForegroundColor "Green"
-          npm publish $file.FullName --quiet
+          npm publish $file.FullName --quiet --access public
         }
       }
 
