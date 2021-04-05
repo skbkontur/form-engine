@@ -29,6 +29,7 @@
     "@babel/traverse": "^7.12.17",
     "@skbkontur/react-ui-validations": "^1.4.0",
     "lodash": "^4.17.20",
+    "nerdbank-gitversioning": "^3.4.179-rc",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.2",

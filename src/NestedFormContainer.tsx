@@ -20,7 +20,8 @@ import {
 import { FormState } from "./FormStore/FormState";
 import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
-import { PathFilter, ValidationResult } from "./Types";
+import { ValidationResult } from "./Types";
+import { PathFilter } from "./Types";
 
 interface NestedFormContainerProps<TData, TChild, TDataContext, TChildContext> {
     path: Path<TData, TChild> | NormalizedPath;
@@ -36,16 +37,20 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
 
     public constructor(props: NestedFormContainerProps<TData, TChild, TDataContext, TChildContext>) {
         super(props);
-        const pathPrefix = Array.isArray(props.path) ? props.path : getNormalizedPath(props.path);
         const contextPathPrefix =
             props.contextPath == null || Array.isArray(props.contextPath)
                 ? props.contextPath
                 : getNormalizedPath(props.contextPath);
         this.deepActions = new NestedFormContextActions<TData, TDataContext>(
-            pathPrefix,
+            () => this.getPathPrefix(),
             contextPathPrefix,
             this.handleCustomAction
         );
+    }
+
+    public getPathPrefix() {
+        const { path } = this.props;
+        return Array.isArray(path) ? path : getNormalizedPath(path);
     }
 
     public render(): JSX.Element {
@@ -63,24 +68,27 @@ export class NestedFormContainer<TData, TChild, TDataContext, TChildContext = TD
 }
 
 class NestedFormContextActions<T, TContext> implements FormContextActions<T, TContext> {
-    private readonly pathPrefix: NormalizedPath;
+    private readonly getPathPrefix: () => NormalizedPath;
     private readonly contextPathPrefix?: NormalizedPath;
     private readonly handleCustomAction?: (action: any) => void;
 
     public setAutoEvaluationStateToStore = setAutoEvaluationStateToStore;
 
     public constructor(
-        pathPrefix: NormalizedPath,
+        getPathPrefix: () => NormalizedPath,
         contextPath?: NormalizedPath,
         handleCustomAction?: (action: any) => void
     ) {
-        this.pathPrefix = pathPrefix;
+        this.getPathPrefix = getPathPrefix;
         this.contextPathPrefix = contextPath;
         this.handleCustomAction = handleCustomAction;
     }
 
-    public getValue = (target: any, path: any): any =>
-        getIn(target, combineNormalizedPath(this.pathPrefix, getNormalizedPath(path)));
+    public getValue = (target: any, path: any): any => {
+        const normalizedPath = getNormalizedPath(path);
+        const combinedNormalizedPath = combineNormalizedPath(this.getPathPrefix(), normalizedPath);
+        return getIn(target, combinedNormalizedPath);
+    };
 
     public getValueFromContext = (target: any, path: any): any =>
         getIn(
@@ -91,13 +99,13 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
         );
 
     public getValidationInfo = (state: any, path: NormalizedPath): undefined | ValidationInfo =>
-        getValidationInfo(state, combineNormalizedPath(this.pathPrefix, path));
+        getValidationInfo(state, combineNormalizedPath(this.getPathPrefix(), path));
 
     public getPartialValidationResult = (state: any, path: NormalizedPath): undefined | ValidationResult =>
-        getPartialValidationResult(state, combineNormalizedPath(this.pathPrefix, path));
+        getPartialValidationResult(state, combineNormalizedPath(this.getPathPrefix(), path));
 
     public userUpdateValue = (path: NormalizedPath, value: any): FormAction =>
-        userUpdateValue(combineNormalizedPath(this.pathPrefix, path), value);
+        userUpdateValue(combineNormalizedPath(this.getPathPrefix(), path), value);
 
     public getAutoEvaluationState = <T, TChild>(
         formState: FormState<T>,
@@ -105,7 +113,7 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
     ): AutoEvaluationControlState<TChild> | undefined =>
         getAutoEvaluationStateFromNormalizedPath(
             formState,
-            combineNormalizedPath(this.pathPrefix, getNormalizedPath(path))
+            combineNormalizedPath(this.getPathPrefix(), getNormalizedPath(path))
         );
 
     public isAllAutoEvaluationsEnabled<T>(formState: FormState<T>, pathFilter?: PathFilter): boolean {
@@ -119,7 +127,7 @@ class NestedFormContextActions<T, TContext> implements FormContextActions<T, TCo
     }
 
     public changeAutoEvaluationType = (path: NormalizedPath, type: AutoValueType): FormAction =>
-        changeAutoEvaluationType(combineNormalizedPath(this.pathPrefix, path), type);
+        changeAutoEvaluationType(combineNormalizedPath(this.getPathPrefix(), path), type);
 
     public runAutoEvaluations(): FormAction {
         return runAutoEvaluations();
