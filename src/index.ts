@@ -12,7 +12,7 @@ export * from "./FormStore/FormReducer";
 export * from "./FormStore/FormState";
 export * from "./FormStore/ImmutableOperators";
 
-export * from "./AutoEvaluators";
 export * from "./FormActionsContext";
 export * from "./Path";
+export * from "./Types";
 export * from "./Utils";
