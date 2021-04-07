@@ -15,5 +15,4 @@ export * from "./FormStore/ImmutableOperators";
 export * from "./AutoEvaluators";
 export * from "./FormActionsContext";
 export * from "./Path";
-export * from "./Types";
 export * from "./Utils";
