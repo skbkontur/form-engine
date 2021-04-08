@@ -54,7 +54,6 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "jest": "^26.6.3",
-    "jest-teamcity-reporter": "^0.9.0",
     "nerdbank-gitversioning": "^3.4.179-rc",
     "prettier": "^2.2.1",
     "redux-devtools-extension": "^2.13.8",
@@ -62,7 +61,6 @@
     "typescript": "3.9.3"
   },
   "jest": {
-    "testResultsProcessor": "jest-teamcity-reporter",
     "transform": {
       "^.+\\.(j|t)sx?$": "ts-jest"
     },
