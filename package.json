@@ -24,9 +24,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/generator": "^7.12.17",
-    "@babel/parser": "^7.12.17",
-    "@babel/traverse": "^7.12.17",
     "@skbkontur/react-ui-validations": "^1.4.0",
     "lodash": "^4.17.20",
     "react": "^16.13.1",
@@ -35,6 +32,9 @@
     "redux": "^4.0.5"
   },
   "devDependencies": {
+    "@babel/generator": "^7.12.17",
+    "@babel/parser": "^7.12.17",
+    "@babel/traverse": "^7.12.17",
     "@types/chai": "^4.2.15",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
