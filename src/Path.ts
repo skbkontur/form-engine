@@ -6,7 +6,7 @@ function getPath(propertyPicker: any) {
     if (fieldsString != undefined && fieldsString[2] == undefined) {
         return [];
     }
-    return fieldsString[2].replace(/\["?/g, ".").replace(/"?]/, "").split(".");
+    return fieldsString[2].replace(/\["?/g, ".").replace(/"?]/g, "").split(".");
 }
 
 export type Path<T, TR> = (value: T) => TR;
