@@ -93,17 +93,17 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
         }
     };
 
-    public componentWillReceiveProps(nextProps: FormContainerProps<TData, TContext>) {
+    public componentDidUpdate(_prevProps: FormContainerProps<TData, TContext>) {
         // TODO отпасти изменение контекста
         const state = this.store.getState();
-        if (nextProps.value !== state.value) {
-            this.store.dispatch(replaceValue(nextProps.value));
+        if (this.props.value !== state.value) {
+            this.store.dispatch(replaceValue(this.props.value));
         }
-        if (nextProps.validator !== state.validator) {
-            this.store.dispatch(replaceValidator(nextProps.validator));
+        if (this.props.validator !== state.validator) {
+            this.store.dispatch(replaceValidator(this.props.validator));
         }
-        if (nextProps.context != null && !isEqual(state.context, nextProps.context)) {
-            this.store.dispatch(replaceContext(nextProps.context));
+        if (this.props.context != null && !isEqual(state.context, this.props.context)) {
+            this.store.dispatch(replaceContext(this.props.context));
         }
     }
 
