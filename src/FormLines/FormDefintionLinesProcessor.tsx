@@ -109,16 +109,17 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             if (element.props.path == undefined) {
                 return element;
             }
-            let normalizedPath;
             // Берем пути у детей
             element.props.children.forEach((child: JSX.Element) => {
                 (child.props.children || []).forEach((innerChild: JSX.Element) => {
-                    if (innerChild.props != undefined && innerChild.props.path != undefined) {
-                        normalizedPath = getNormalizedPath(innerChild.props.path);
-                        if (!isPathExistInLine(this.currentLine, normalizedPath)) {
-                            this.currentLine.push(normalizedPath);
-                        }
-                    }
+                    Object.keys(innerChild.props || {})
+                        .filter(propKey => propKey.startsWith("path") && innerChild.props[propKey] != null)
+                        .forEach(propKey => {
+                            let normalizedPath = getNormalizedPath(innerChild.props[propKey]);
+                            if (!isPathExistInLine(this.currentLine, normalizedPath)) {
+                                this.currentLine.push(normalizedPath);
+                            }
+                        });
                 });
             });
             return element;
