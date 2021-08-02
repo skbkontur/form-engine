@@ -56,6 +56,19 @@ function isPathExistInLine(line: NormalizedPath[], path: NormalizedPath): boolea
     return line.map(x => x.toString()).includes(path.toString());
 }
 
+function addIfNotExists(current: NormalizedPath[], value: NormalizedPath) {
+    if (!isPathExistInLine(current, value)) {
+        current.push(value);
+    }
+}
+
+function getNormalizedPathsFromProps(props: any) {
+    if (props == null) return [];
+    return Object.keys(props)
+        .filter(propKey => propKey.startsWith("path") && props[propKey] != null)
+        .map(propKey => getNormalizedPath(props[propKey]));
+}
+
 class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
     public currentLine: NormalizedPath[] = [];
     public lines: FormLineInfo[] = [];
@@ -105,38 +118,31 @@ class ExtractFormLinesInfoVisitor implements JSXElementVisitor {
             return cloneElement(element, { childInternalIds: currentGroupdChildLineIds });
         }
         if (element.type["FormSwitchBindControl"]) {
-            //this.currentLine = this.currentLine;
             if (element.props.path == undefined) {
                 return element;
             }
-            let normalizedPath;
             // Берем пути у детей
             element.props.children.forEach((child: JSX.Element) => {
                 (child.props.children || []).forEach((innerChild: JSX.Element) => {
-                    if (innerChild.props != undefined && innerChild.props.path != undefined) {
-                        normalizedPath = getNormalizedPath(innerChild.props.path);
-                        if (!isPathExistInLine(this.currentLine, normalizedPath)) {
-                            this.currentLine.push(normalizedPath);
-                        }
-                    }
+                    const normalizedPaths = getNormalizedPathsFromProps(innerChild.props);
+                    normalizedPaths.forEach(path => addIfNotExists(this.currentLine, path));
                 });
             });
             return element;
         }
         if (element.type["FormBindControl"]) {
-            //this.currentLine = this.currentLine;
-            if (element.props.path == undefined) {
+            const normalizedPaths = getNormalizedPathsFromProps(element.props);
+            if (normalizedPaths.length === 0) {
                 return element;
             }
-            const normalizedPath = getNormalizedPath(element.props.path);
-            if (!isPathExistInLine(this.currentLine, normalizedPath)) {
-                this.currentLine.push(normalizedPath);
-            }
+
+            normalizedPaths.forEach(path => addIfNotExists(this.currentLine, path));
+
+            const tids = normalizedPaths
+                .map(path => toUpperCamelCasePathWithSeparator(path, "."))
+                .concat(normalizedPaths.map(path => toUpperCamelCasePathWithSeparator(path, "-")));
             return cloneElement(element, {
-                "data-tid": concatTids(
-                    toUpperCamelCasePathWithSeparator(normalizedPath, "."),
-                    toUpperCamelCasePathWithSeparator(normalizedPath, "-")
-                ),
+                "data-tid": concatTids(...tids),
             });
         }
         if (element.type["FormLine"]) {
