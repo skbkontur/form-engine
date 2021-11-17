@@ -31,7 +31,7 @@ export function setIn<T>(target: T, path: NormalizedPath, value: any): T {
         (typeof currentPathItem === "number" || !isNaN(Number(currentPathItem))) &&
         (Array.isArray(target) || target == null)
     ) {
-        const result: any = target == null ? [] : [...((target as unknown) as T[])];
+        const result: any = target == null ? [] : [...(target as unknown as T[])];
         result[currentPathItem] = setIn(target == null ? null : target[currentPathItem], restPath, value);
         return result;
     } else if (typeof currentPathItem === "string" && Array.isArray(target)) {
