@@ -20,8 +20,7 @@ import {
 import { FormState } from "./FormStore/FormState";
 import { getIn } from "./FormStore/ImmutableOperators";
 import { combineNormalizedPath, getNormalizedPath, NormalizedPath, Path } from "./Path";
-import { ValidationResult } from "./Types";
-import { PathFilter } from "./Types";
+import { ValidationResult, PathFilter } from "./Types";
 
 interface NestedFormContainerProps<TData, TChild, TDataContext, TChildContext> {
     path: Path<TData, TChild> | NormalizedPath;
