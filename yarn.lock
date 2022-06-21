@@ -575,12 +575,12 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skbkontur/react-ui-validations@^1.4.0":
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.5.7.tgz#62d31ea194092c4491294dc587c6465846b6c868"
-  integrity sha512-j3+lhtRYE3qX77+AkXoimgij8J74a0DFkLz92P/5CMvkJWaZt0scrL24ShwhWKwNZDUKYk8km17jPQGBlvEpiA==
+"@skbkontur/react-ui-validations@^1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.8.4.tgz#63b43f363f87575b9b71782b42115578ba1d68be"
+  integrity sha512-JAzcEeJNmkKD6bEdgEtMx/iPewHlgX5brMtYU5UCsM8N6LuwE4bzxtP2g22LjqjUgxw9VUHnKbz7ydG4lHbfGg==
   dependencies:
-    prop-types "^15.7.2"
+    prop-types "^15.8.0"
     smoothscroll-polyfill "^0.4.4"
     warning "^4.0.3"
 
@@ -3849,6 +3849,15 @@ prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.8.0:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 psl@^1.1.33:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
@@ -3881,7 +3890,7 @@ react-dom@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
