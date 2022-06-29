@@ -30,7 +30,7 @@
   "dependencies": {
     "@skbkontur/react-ui-validations": "^1.4.0",
     "lodash": "^4.17.20",
-    "react-redux": "^7.2.1",
+    "react-redux": "^8.0.2",
     "redux": "^4.0.5"
   },
   "devDependencies": {
