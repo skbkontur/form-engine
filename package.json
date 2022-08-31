@@ -28,7 +28,7 @@
     "react-dom": ">=16 <=17"
   },
   "dependencies": {
-    "@skbkontur/react-ui-validations": "^1.8.4",
+    "@skbkontur/react-ui-validations": "^1.10.1",
     "lodash": "^4.17.20",
     "react-redux": "^8.0.2",
     "redux": "^4.0.5"
