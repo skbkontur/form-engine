@@ -9,6 +9,9 @@ image: Visual Studio 2022
 init:
   - cmd: git config --global core.autocrlf false
 
+skip_tags: true
+skip_non_tags: true
+
 environment:
   NPM_TOKEN:
     secure: Gx5yyFrlELZY4DNW/uAuiXdhUADacNqi3LptQwldv8O61KpYyiDUniA8lBJ5jfne
