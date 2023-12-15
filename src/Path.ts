@@ -1,9 +1,11 @@
 function getPath(propertyPicker: any) {
-    const fieldsString = /return [^{\\}\\()]*?(\.([^{}()]*?))?\s*[;}]/.exec(propertyPicker.toString());
-    if (fieldsString == undefined) {
+    const fieldsString = /(?:return|=>)[^{}()]*?(\.([^{}()]*?))?([;})]|$)/.exec(
+        propertyPicker.toString().replace(/[\n\t\r]/g, "")
+    );
+    if (!fieldsString) {
         throw new Error(`Cannot extract path from function: ${propertyPicker.toString()}`);
     }
-    if (fieldsString != undefined && fieldsString[2] == undefined) {
+    if (fieldsString && !fieldsString[2]) {
         return [];
     }
     return fieldsString[2].replace(/\["?/g, ".").replace(/"?]/g, "").split(".");
