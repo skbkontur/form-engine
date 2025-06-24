@@ -515,7 +515,7 @@
 
 "@skbkontur/react-ui-validations@^2.1.5":
   version "2.1.5"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/react-ui-validations/-/react-ui-validations-2.1.5.tgz#5ccbd2affa2c2a7af2a9833324ec0981e254a0e4"
+  resolved "https://registry.npmjs.org/@skbkontur/react-ui-validations/-/react-ui-validations-2.1.5.tgz#5ccbd2affa2c2a7af2a9833324ec0981e254a0e4"
   integrity sha512-9bLOGjbEXntDMrYLymuJvBUDIlnaim2Xnw6EsS4YTCJ8jsOgeW5W9X035eWTOAgyRHO5t7pVaqbyNqwKArvdGQ==
   dependencies:
     prop-types "^15.8.0"
@@ -3355,7 +3355,8 @@ prop-types@^15.7.2:
 
 prop-types@^15.8.0:
   version "15.8.1"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
   dependencies:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
@@ -3690,7 +3691,8 @@ slice-ansi@^4.0.0:
 
 smoothscroll-polyfill@^0.4.4:
   version "0.4.4"
-  resolved "https://registry.yarnpkg.com/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
+  resolved "https://registry.npmjs.org/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
+  integrity sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
@@ -4166,7 +4168,8 @@ walker@^1.0.7, walker@~1.0.5:
 
 warning@^4.0.3:
   version "4.0.3"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  resolved "https://registry.npmjs.org/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"
 

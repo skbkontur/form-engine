@@ -6,7 +6,7 @@ on:
     paths-ignore:
         - "**/*.md"
 env:
-  NODE_VERSION: 14
+  NODE_VERSION: 20
   NPM_REGISTRY: https://registry.npmjs.org
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
