@@ -1,5 +1,5 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore, Store, Unsubscribe } from "redux";

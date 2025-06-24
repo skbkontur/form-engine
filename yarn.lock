@@ -513,9 +513,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@skbkontur/react-ui-validations@^1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-1.10.1.tgz#593e878c83e89451937af4b86c0debfa787a2fe7"
+"@skbkontur/react-ui-validations@^2.1.5":
+  version "2.1.5"
+  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/react-ui-validations/-/react-ui-validations-2.1.5.tgz#5ccbd2affa2c2a7af2a9833324ec0981e254a0e4"
+  integrity sha512-9bLOGjbEXntDMrYLymuJvBUDIlnaim2Xnw6EsS4YTCJ8jsOgeW5W9X035eWTOAgyRHO5t7pVaqbyNqwKArvdGQ==
   dependencies:
     prop-types "^15.8.0"
     smoothscroll-polyfill "^0.4.4"

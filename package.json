@@ -1,6 +1,7 @@
 {
   "name": "@skbkontur/form-engine",
-  "version": "0.1.0",
+  "version": "0.3",
+  "sideEffects": false,
   "main": "index.js",
   "repository": "git@github.com:skbkontur/form-engine.git",
   "author": "Eugene Tihonov && EDI",
@@ -28,7 +29,7 @@
     "react-dom": ">=16 <=17"
   },
   "dependencies": {
-    "@skbkontur/react-ui-validations": "^1.10.1",
+    "@skbkontur/react-ui-validations": "^2.1.5",
     "lodash": "^4.17.20",
     "react-redux": "^8.0.2",
     "redux": "^4.0.5"
