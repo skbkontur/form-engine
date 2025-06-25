@@ -6,37 +6,37 @@ on:
     paths-ignore:
         - "**/*.md"
 env:
-  NODE_VERSION: 14
+  NODE_VERSION: 20
   NPM_REGISTRY: https://registry.npmjs.org
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build 
+      - name: Build
         run: yarn build
       - name: Run tests
         run: yarn lint && yarn tsc && yarn test
 
   publish:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: test
     if: startsWith(github.event.ref, 'refs/tags/v')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.NPM_REGISTRY }}
@@ -61,7 +61,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             **/*.tgz
