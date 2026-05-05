@@ -1,74 +1,74 @@
 {
-  "name": "@skbkontur/form-engine",
-  "version": "0.4",
-  "sideEffects": false,
-  "main": "index.js",
-  "repository": "git@github.com:skbkontur/form-engine.git",
-  "author": "Eugene Tihonov && EDI",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/skbkontur/form-engine/issues"
-  },
-  "homepage": "https://github.com/skbkontur/form-engine",
-  "keywords": [
-    "FormEngine"
-  ],
-  "scripts": {
-    "build": "npm run build:clean && npm run build:tsc && npm run build:copy:meta && npm run build:patch && npm run build:pack",
-    "build:clean": "rimraf dist",
-    "build:tsc": "tsc --project tsconfig.prod.json",
-    "build:patch": "node ./patch-version",
-    "build:copy:meta": "copyfiles --flat package.json \"./../*.md\" ./../LICENSE dist",
-    "build:pack": "cd dist && npm pack",
-    "tsc": "tsc --noEmit",
-    "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
-    "test": "jest"
-  },
-  "peerDependencies": {
-    "react": ">=16 <=18",
-    "react-dom": ">=16 <=18"
-  },
-  "dependencies": {
-    "@skbkontur/react-ui-validations": "^2.2.1",
-    "lodash": "^4.17.20",
-    "react-redux": "^8.0.2",
-    "redux": "^4.0.5"
-  },
-  "devDependencies": {
-    "@babel/generator": "^7.12.17",
-    "@babel/parser": "^7.12.17",
-    "@babel/traverse": "^7.12.17",
-    "@types/chai": "^4.2.15",
-    "@types/jest": "^29.5.14",
-    "@types/lodash": "^4.14.168",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@types/react-redux": "^7.1.16",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
-    "@typescript-eslint/parser": "^8.46.2",
-    "babel-jest": "^29.7.0",
-    "chai": "^4.3.0",
-    "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-node": "^0.3.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.2.6",
-    "eslint-plugin-react": "^7.37.5",
-    "jest": "^29.7.0",
-    "nerdbank-gitversioning": "^3.4.179-rc",
-    "prettier": "^2.2.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "redux-devtools-extension": "^2.13.8",
-    "ts-jest": "^29.2.5",
-    "typescript": "5.9.2"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(j|t)sx?$": "ts-jest"
+    "name": "@skbkontur/form-engine",
+    "version": "0.4",
+    "sideEffects": false,
+    "main": "index.js",
+    "repository": "git@github.com:skbkontur/form-engine.git",
+    "author": "Eugene Tihonov && EDI",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/skbkontur/form-engine/issues"
     },
-    "testRegex": "./tests(\\\\|/).*(\\.|-)test\\.(j|t)sx?$"
-  }
+    "homepage": "https://github.com/skbkontur/form-engine",
+    "keywords": [
+        "FormEngine"
+    ],
+    "scripts": {
+        "build": "npm run build:clean && npm run build:tsc && npm run build:copy:meta && npm run build:patch && npm run build:pack",
+        "build:clean": "rimraf dist",
+        "build:tsc": "tsc --project tsconfig.prod.json",
+        "build:patch": "node ./patch-version",
+        "build:copy:meta": "copyfiles --flat package.json \"./../*.md\" ./../LICENSE dist",
+        "build:pack": "cd dist && npm pack",
+        "tsc": "tsc --noEmit",
+        "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
+        "test": "jest"
+    },
+    "peerDependencies": {
+        "react": ">=16 <=18",
+        "react-dom": ">=16 <=18",
+        "@skbkontur/react-ui-validations": ">=2"
+    },
+    "dependencies": {
+        "lodash": "^4.17.20",
+        "react-redux": "^8.0.2",
+        "redux": "^4.0.5"
+    },
+    "devDependencies": {
+        "@babel/generator": "^7.12.17",
+        "@babel/parser": "^7.12.17",
+        "@babel/traverse": "^7.12.17",
+        "@types/chai": "^4.2.15",
+        "@types/jest": "^29.5.14",
+        "@types/lodash": "^4.14.168",
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
+        "@types/react-redux": "^7.1.16",
+        "@typescript-eslint/eslint-plugin": "^8.46.2",
+        "@typescript-eslint/parser": "^8.46.2",
+        "babel-jest": "^29.7.0",
+        "chai": "^4.3.0",
+        "copyfiles": "^2.4.1",
+        "cross-env": "^7.0.3",
+        "eslint": "^8.57.1",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-import-resolver-node": "^0.3.4",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-prettier": "^5.2.6",
+        "eslint-plugin-react": "^7.37.5",
+        "jest": "^29.7.0",
+        "nerdbank-gitversioning": "^3.4.179-rc",
+        "prettier": "^2.2.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "redux-devtools-extension": "^2.13.8",
+        "ts-jest": "^29.2.5",
+        "typescript": "5.9.2"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.(j|t)sx?$": "ts-jest"
+        },
+        "testRegex": "./tests(\\\\|/).*(\\.|-)test\\.(j|t)sx?$"
+    }
 }
