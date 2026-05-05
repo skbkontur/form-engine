@@ -772,11 +772,12 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@skbkontur/react-ui-validations@^2.2.1":
-  version "2.3.8"
-  resolved "https://registry.npmjs.org/@skbkontur/react-ui-validations/-/react-ui-validations-2.3.8.tgz#c1d2bc8743d63c75b3995822bb943e3698adcad2"
-  integrity sha512-oFFjXLI5K1I637BM84JxMPqhX0M5aXZ74d7lvCLW2JbldQFvq+ik/zQ20at8NQmaFrp0vkdkWGnC3gJ32s//7g==
+"@skbkontur/react-ui-validations@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-ui-validations/-/react-ui-validations-2.2.1.tgz#8089dd4198b87558d6a8f9397c35ad0bb73edd59"
+  integrity sha512-qZN1meYuigebNLyct6shqtoUnJVfBzO67Q84iuI0PudT666fHTXZPJhp1tWjEODi+Qu4AKz+m/O8LhYmoFNm+w==
   dependencies:
+    prop-types "^15.8.0"
     smoothscroll-polyfill "^0.4.4"
     warning "^4.0.3"
 
@@ -3710,7 +3711,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.8.1:
+prop-types@^15.8.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4042,7 +4043,7 @@ slash@^3.0.0:
 
 smoothscroll-polyfill@^0.4.4:
   version "0.4.4"
-  resolved "https://registry.npmjs.org/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
+  resolved "https://registry.yarnpkg.com/smoothscroll-polyfill/-/smoothscroll-polyfill-0.4.4.tgz#3a259131dc6930e6ca80003e1cb03b603b69abf8"
   integrity sha512-TK5ZA9U5RqCwMpfoMq/l1mrH0JAR7y7KRvOBx0n2869aLxch+gT9GhN3yUfjiw+d/DiF1mKo14+hd62JyMmoBg==
 
 source-map-support@0.5.13:
@@ -4447,7 +4448,7 @@ walker@^1.0.8:
 
 warning@^4.0.3:
   version "4.0.3"
-  resolved "https://registry.npmjs.org/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
   integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"
