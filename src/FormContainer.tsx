@@ -83,7 +83,9 @@ export class FormContainer<TData, TContext = any> extends React.Component<FormCo
             nextProps.value !== state.value ||
             nextProps.validator !== state.validator ||
             (nextProps.context != null &&
-                Object.keys(nextProps.context).some(key => this.props.context[key] !== nextProps.context[key]))
+                Object.keys(nextProps.context).some(
+                    key => (this.props.context as any)[key] !== (nextProps.context as any)[key]
+                ))
         );
     }
 

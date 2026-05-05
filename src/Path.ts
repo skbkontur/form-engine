@@ -27,7 +27,7 @@ export function combineNormalizedPath(left: NormalizedPath, right: NormalizedPat
     return [...left, ...right];
 }
 
-export function getNormalizedPath<TTarget extends {}, TProp, TContext extends {}>(
+export function getNormalizedPath<TTarget, TProp, TContext>(
     lambda: (target: TTarget, context?: TContext) => TProp
 ): NormalizedPath {
     let result = normalizedPathCache.get(lambda);

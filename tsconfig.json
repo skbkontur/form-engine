@@ -1,39 +1,38 @@
 {
     "compilerOptions": {
-      "allowJs": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "baseUrl": "./",
-      "rootDir": "./",
-      "jsx": "react",
-      "outDir": "dist",
-      "module": "commonjs",
-      "target": "es5",
-      "moduleResolution": "node",
-      "importHelpers": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": false,
-      "pretty": true,
-      "skipLibCheck": true,
-      "sourceMap": true,
-      "declaration": true,
-      "maxNodeModuleJsDepth": 5,
-      "strict": true,
-      "experimentalDecorators": true,
-      "noImplicitReturns": true,
-      "suppressImplicitAnyIndexErrors": true,
-      "lib": ["es2020", "dom"],
-      "paths": {
-        "*": ["typings/*"]
-      }
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "dist",
+        "jsx": "react-jsx",
+        "module": "esnext",
+        "target": "esnext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "moduleResolution": "bundler",
+        "allowJs": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "experimentalDecorators": true,
+        "noUnusedLocals": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "inlineSources": true,
+        "sourceMap": true,
+        "sourceRoot": "/",
+        "downlevelIteration": true,
+        "noImplicitReturns": true,
+        "strict": true,
+        "paths": {
+            "*": ["typings/*"]
+        }
     },
     "include": [
-      "DbViewerApiFake.ts",
-      "index.tsx",
-      "src/**/*",
-      "stories/**/*",
-      "tests/**/*",
-      "typings/**/*"
-    ]
-  }
-  
+        "DbViewerApiFake.ts",
+        "index.tsx",
+        "src/**/*",
+        "stories/**/*",
+        "tests/**/*",
+        "typings/**/*"
+    ],
+    "exclude": ["**/node_modules/**/*", "**/.*/"]
+}
