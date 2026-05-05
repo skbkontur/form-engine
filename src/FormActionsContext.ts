@@ -9,7 +9,7 @@ import { FormState } from "./FormStore/FormState";
 import { NormalizedPath, Path } from "./Path";
 import { PathFilter, ValidationResult } from "./Types";
 
-export interface FormContextActions<T, TContext extends {}> {
+export interface FormContextActions<T, TContext> {
     getValidationInfo<T>(state: FormState<T>, path: NormalizedPath): undefined | ValidationInfo;
     getPartialValidationResult<T>(state: FormState<T>, path: NormalizedPath): undefined | ValidationResult;
     getValue<TChild>(target: T, path: Path<T, TChild>): TChild;

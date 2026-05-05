@@ -32,16 +32,16 @@ export function setIn<T>(target: T, path: NormalizedPath, value: any): T {
         (Array.isArray(target) || target == null)
     ) {
         const result: any = target == null ? [] : [...(target as unknown as T[])];
-        result[currentPathItem] = setIn(target == null ? null : target[currentPathItem], restPath, value);
+        result[currentPathItem] = setIn(target == null ? null : (target as any)[currentPathItem], restPath, value);
         return result;
     } else if (typeof currentPathItem === "string" && Array.isArray(target)) {
         const result: any = target == null ? [] : [...target];
-        result[currentPathItem] = setIn(target == null ? null : target[currentPathItem], restPath, value);
+        result[currentPathItem] = setIn(target == null ? null : (target as any)[currentPathItem], restPath, value);
         return result;
     } else {
         return {
             ...(target as any),
-            [currentPathItem]: setIn(target == null ? null : target[currentPathItem], restPath, value),
+            [currentPathItem]: setIn(target == null ? null : (target as any)[currentPathItem], restPath, value),
         };
     }
 }

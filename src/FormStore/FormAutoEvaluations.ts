@@ -103,7 +103,7 @@ export function initAutoEvaluationState<T>(
     };
 }
 
-export function changeAutoEvaluatedType<T extends {}>(
+export function changeAutoEvaluatedType<T>(
     value: T,
     autoEvaluationState: AutoEvaluationsState<T>,
     path: NormalizedPath,
@@ -132,7 +132,7 @@ export function changeAutoEvaluatedType<T extends {}>(
     return [nextState, nextAutoEvaluationState];
 }
 
-export function applyAllAutoEvaluatedType<T extends {}>(
+export function applyAllAutoEvaluatedType<T>(
     value: T,
     autoEvaluationState: AutoEvaluationsState<T>,
     autoEvaluator: AutoEvaluator<T>,
@@ -208,7 +208,7 @@ export function changeAutoEvaluatedValue<T>(
     });
 }
 
-function updateStateByKey<T extends {}>(
+function updateStateByKey<T>(
     autoEvaluationState: AutoEvaluationsState<T>,
     nodeKey: string,
     updater: (nodeState: NodeState) => NodeState
